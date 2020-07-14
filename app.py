@@ -6,9 +6,21 @@ from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.image import AsyncImage
 from kivy.config import Config
 from kivy.uix.label import Label
+from kivy.clock import Clock
+
+import time
 
 
-class CustomLayout(FloatLayout):
+class Time(Label):
+	def update(self, *args):
+		self.text = time.asctime()
+
+
+class Temperature(Label):
+	pass
+
+
+class Wallpaper(AsyncImage):
 	pass
 
 
@@ -18,22 +30,9 @@ class MainApp(App):
 	Config.set('graphics', 'height', '1080')
 
 	def build(self):
-		custom = CustomLayout()
-		custom.add_widget(
-			AsyncImage(
-				source="./wallpapers/01947_atouchofred_1920x1080.jpg",
-				size_hint=(1, 1),
-				pos_hint={'center_x': .5, 'center_y': .5}))
-
-		custom.add_widget(
-			Label(
-				text="Temperature: 26°C",
-				font_name='./fonts/Roboto-Regular.ttf',
-				font_size=50,
-				valign='top',
-				halign='left'))
-
-		return custom
+		layout = FloatLayout()
+		Clock.schedule_interval(layout.ids.time.update, 1 / 1.)
+		return layout
 
 
 if __name__ == '__main__':
