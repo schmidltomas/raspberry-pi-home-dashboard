@@ -3,7 +3,7 @@
 <Temperature>:
 
 <Wallpaper>:
-    source: './wallpapers/01947_atouchofred_1920x1080.jpg'
+    source: './wallpapers/02700_trifecta_1920x1080.jpg'
     size_hint: 1, 1
 
 <Label>:
@@ -11,17 +11,28 @@
     font_name: './fonts/Roboto-Regular.ttf'
     font_size: 50
 
-<FloatLayout>:
+<CustomLayout>:
+    FloatLayout:
+        Wallpaper:
+            id: wallpaper
+            pos_hint: {'center_x': .5, 'center_y': .5}
 
-	Wallpaper:
-        id: wallpaper
-	    pos_hint: {'center_x': .5, 'center_y': .5}
+        Time:
+            id: time_shadow
+            pos_hint: {'right': 0.181, 'top': 0.959}
+            color: 0, 0, 0, .5
 
-    Time:
-        id: time
-		pos_hint: {'right': 0.2, 'top': 0.99}
+        Time:
+            id: time
+            pos_hint: {'right': 0.18, 'top': 0.96}
 
-    Temperature:
-        id: temperature
-		pos_hint: {'right': 0.89, 'top': 0.99}
-        text: "Temperature: 26°C"
+        Temperature:
+            id: temperature_shadow
+            pos_hint: {'right': 0.891, 'top': 0.989}
+            color: 0, 0, 0, .5
+            text: "Temperature: 26°C"
+
+        Temperature:
+            id: temperature
+            pos_hint: {'right': 0.89, 'top': 0.99}
+            text: "Temperature: 26°C"
