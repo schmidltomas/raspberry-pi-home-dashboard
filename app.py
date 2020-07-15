@@ -28,7 +28,14 @@ class Wallpaper(AsyncImage):
 
 class Time(Label):
 	def update(self, *args):
-		self.text = time.strftime("%A %d %B %Y\n%H:%M:%S")
+		# self.text = time.strftime("%H:%M:%S")
+		self.text = time.strftime("%H:%M")
+
+
+class Date(Label):
+	def update(self, *args):
+		# self.text = time.strftime("%A %d %B %Y")
+		self.text = time.strftime("%a %d %B")
 
 
 class Temperature(Label):
@@ -37,6 +44,7 @@ class Temperature(Label):
 
 class MainApp(App):
 
+	# Config.set('graphics', 'fullscreen', 1)
 	Config.set('graphics', 'width', '1920')
 	Config.set('graphics', 'height', '1080')
 
@@ -44,7 +52,9 @@ class MainApp(App):
 		layout = CustomLayout()
 		Clock.schedule_once(layout.ids.wallpaper.random_image, 1)
 		Clock.schedule_interval(layout.ids.time.update, 1 / 1.)
+		Clock.schedule_interval(layout.ids.date.update, 1 / 1.)
 		Clock.schedule_interval(layout.ids.time_shadow.update, 1 / 1.)
+		Clock.schedule_interval(layout.ids.date_shadow.update, 1 / 1.)
 
 		return layout
 

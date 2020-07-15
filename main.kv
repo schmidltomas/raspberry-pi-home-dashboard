@@ -8,7 +8,7 @@
 
 <Label>:
     size_hint: None, None
-    font_name: './fonts/Roboto-Regular.ttf'
+    font_name: './fonts/OpenSans-Light.ttf'
     font_size: 50
 
 <CustomLayout>:
@@ -19,20 +19,31 @@
 
         Time:
             id: time_shadow
-            pos_hint: {'right': 0.181, 'top': 0.959}
+            pos_hint: {'right': 0.121, 'top': 0.969}
+            font_size: 100
             color: 0, 0, 0, .5
 
         Time:
             id: time
-            pos_hint: {'right': 0.18, 'top': 0.96}
+            pos_hint: {'right': 0.12, 'top': 0.97}
+            font_size: 100
+
+        Date:
+            id: date_shadow
+            pos_hint: {'right': 0.131, 'top': 0.869}
+            color: 0, 0, 0, .5
+
+        Date:
+            id: date
+            pos_hint: {'right': 0.13, 'top': 0.87}
 
         Temperature:
             id: temperature_shadow
-            pos_hint: {'right': 0.891, 'top': 0.989}
+            pos_hint: {'right': 0.091, 'top': 0.139}
             color: 0, 0, 0, .5
-            text: "Temperature: 26°C"
+            text: "26°C"
 
         Temperature:
             id: temperature
-            pos_hint: {'right': 0.89, 'top': 0.99}
-            text: "Temperature: 26°C"
+            pos_hint: {'right': 0.09, 'top': 0.14}
+            text: "26°C"
