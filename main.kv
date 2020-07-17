@@ -2,8 +2,11 @@
 
 <Temperature>:
 
+<TemperatureIcon>:
+    size_hint: None, None
+
 <Wallpaper>:
-    source: './wallpapers/02700_trifecta_1920x1080.jpg'
+    source: './wallpapers/03075_sunsetoverfindon_1920x1080.jpg'
     size_hint: 1, 1
 
 <Label>:
@@ -17,35 +20,51 @@
             id: wallpaper
             pos_hint: {'center_x': .5, 'center_y': .5}
 
-        Time:
-            id: time_shadow
-            pos_hint: {'right': 0.121, 'top': 0.969}
-            font_size: 100
-            color: 0, 0, 0, .5
+        RelativeLayout:
+            size_hint: None, None
+            pos_hint: {'top': 1}
 
-        Time:
-            id: time
-            pos_hint: {'right': 0.12, 'top': 0.97}
-            font_size: 100
+            RelativeLayout:
+                pos: 140, -40
 
-        Date:
-            id: date_shadow
-            pos_hint: {'right': 0.126, 'top': 0.869}
-            color: 0, 0, 0, .5
+                Time:
+                    id: time_shadow
+                    pos: 1, -1
+                    font_size: 100
+                    color: 0, 0, 0, .5
 
-        Date:
-            id: date
-            pos_hint: {'right': 0.125, 'top': 0.87}
+                Time:
+                    id: time
+                    font_size: 100
 
-        Temperature:
-            id: temperature_shadow
-            pos_hint: {'right': 0.091, 'top': 0.139}
-            color: 0, 0, 0, .5
+            RelativeLayout:
+                pos: 125, -140
 
-        Temperature:
-            id: temperature
-            pos_hint: {'right': 0.09, 'top': 0.14}
+                Date:
+                    id: date_shadow
+                    pos: 1, -1
+                    color: 0, 0, 0, .5
 
-        TemperatureIcon:
-            id: temperature_icon
-            pos_hint: {'right': 0.62, 'top': 0.585}
+                Date:
+                    id: date
+
+
+        RelativeLayout:
+            size_hint: None, None
+            pos_hint: {'top': 0.15}
+
+            RelativeLayout:
+                pos: 80, 0
+
+                Temperature:
+                    id: temperature_shadow
+                    pos: 1, -1
+                    color: 0, 0, 0, .5
+
+                Temperature:
+                    id: temperature
+
+                TemperatureIcon:
+                    id: temperature_icon
+                    pos: 115, -8
+
