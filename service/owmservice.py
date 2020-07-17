@@ -7,15 +7,17 @@ import requests
 
 
 class OWMService:
-	url = "http://api.openweathermap.org/data/2.5/weather"
+	url = "http://api.openweathermap.org/data/2.5/onecall"
 	icon_url = "http://openweathermap.org/img/wn/"
-	city = "Brno"
-	api_key = "<API_KEY>"
+	lat = "49.1953"
+	lon = "16.6086"
+	units = "metric"
+	exclude = "minutely,hourly"
+	api_key = "API_KEY"
 
 	def fetch_data(self):
-		params = {'q': self.city, 'appid': self.api_key, 'units': 'metric'}
-		response = requests.get(url=self.url, params=params)
-		return response
+		params = {'lat': self.lat, 'lon': self.lon, 'units': self.units, 'exclude': self.exclude, 'appid': self.api_key}
+		return requests.get(url=self.url, params=params)
 
 	def get_icon_url(self, icon_id):
 		return self.icon_url + str(icon_id) + '@2x.png'

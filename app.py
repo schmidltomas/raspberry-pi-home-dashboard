@@ -39,19 +39,18 @@ class Date(Label):
 
 
 class Temperature(Label):
+	temp = None
+
 	def update(self, *args):
-		owm_service = OWMService()
-		response = owm_service.fetch_data()
-		temp = response.json()['main']['temp']
-		self.text = str(str(temp).split(".")[0]) + "°C"
+		self.text = str(str(self.temp).split(".")[0]) + "°C"
 
 
 class TemperatureIcon(AsyncImage):
-	def fetch_image(self, *args):
-		weather = OWMService()
-		response = weather.fetch_data()
-		icon_url = weather.get_icon_url(response.json()['weather'][0]['icon'])
-		self.source = icon_url
+	icon = None
+
+	def update_icon(self, *args):
+		owm_service = OWMService()
+		self.source = owm_service.get_icon_url(self.icon)
 		self.reload()
 
 
@@ -65,16 +64,22 @@ class MainApp(App):
 
 	def build(self):
 		layout = CustomLayout()
-		Clock.schedule_once(layout.ids.wallpaper.random_image, 1)
-		Clock.schedule_interval(layout.ids.time.update, 1 / 1.)
-		Clock.schedule_interval(layout.ids.time_shadow.update, 1 / 1.)
-		Clock.schedule_interval(layout.ids.date.update, 1 / 1.)
-		Clock.schedule_interval(layout.ids.date_shadow.update, 1 / 1.)
+		# Clock.schedule_once(layout.ids.wallpaper.random_image, 1)
+		Clock.schedule_interval(layout.ids.time.update, 1)
+		Clock.schedule_interval(layout.ids.time_shadow.update, 1)
+		Clock.schedule_interval(layout.ids.date.update, 1)
+		Clock.schedule_interval(layout.ids.date_shadow.update, 1)
 
-		# TODO redundant API call
+		# TODO temperature updated only once
+		owm_service = OWMService()
+		response = owm_service.fetch_data()
+		layout.ids.temperature.temp = response.json()['current']['temp']
+		layout.ids.temperature_shadow.temp = response.json()['current']['temp']
+		layout.ids.temperature_icon.icon = response.json()['current']['weather'][0]['icon']
+
 		Clock.schedule_once(layout.ids.temperature.update, 1)
 		Clock.schedule_once(layout.ids.temperature_shadow.update, 1)
-		Clock.schedule_once(layout.ids.temperature_icon.fetch_image, 1)
+		Clock.schedule_once(layout.ids.temperature_icon.update_icon, 1)
 
 		return layout
 
