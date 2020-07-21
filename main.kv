@@ -10,9 +10,17 @@
     size_hint: 1, 1
 
 <Label>:
+    size: self.texture_size
     size_hint: None, None
     font_name: './fonts/OpenSans-Light.ttf'
     font_size: 50
+
+<News>:
+    size: 600, 600
+    font_name: './fonts/OpenSans-Regular.ttf'
+    font_size: 25
+    text_size: self.width, None
+    height: self.texture_size[1]
 
 <CustomLayout>:
     FloatLayout:
@@ -26,7 +34,7 @@
             pos_hint: {'top': 1}
 
             RelativeLayout:
-                pos: 140, -40
+                pos: 60, -40
 
                 Time:
                     id: time_shadow
@@ -39,7 +47,7 @@
                     font_size: 100
 
             RelativeLayout:
-                pos: 125, -140
+                pos: 70, -130
 
                 Date:
                     id: date_shadow
@@ -69,3 +77,16 @@
                     id: temperature_icon
                     pos: 115, -8
 
+        ### News widget ###
+        RelativeLayout:
+            size_hint: None, None
+            pos_hint: {'top': 0.9, 'right': 0.7}
+
+            RelativeLayout:
+                News:
+                    id: news_1_shadow
+                    pos: 1, -1
+                    color: 0, 0, 0, .5
+
+                News:
+                    id: news_1

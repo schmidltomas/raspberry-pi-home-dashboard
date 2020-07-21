@@ -4,8 +4,9 @@
 from kivy.app import App
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.image import AsyncImage
-from kivy.config import Config
 from kivy.uix.label import Label
+from kivy.graphics.vertex_instructions import Line
+from kivy.config import Config
 from kivy.clock import Clock
 
 import time
@@ -13,6 +14,7 @@ import glob
 import random
 
 from service.owmservice import OWMService
+from service.rssservice import RSSService
 
 
 class CustomLayout(FloatLayout):
@@ -54,8 +56,21 @@ class TemperatureIcon(AsyncImage):
 		self.reload()
 
 
-class MainApp(App):
+class News(Label):
+	def __init__(self, **kwargs):
+		super(News, self).__init__(**kwargs)
 
+		# with self.canvas:
+		# 	Line(points=[20, 150, 500, 150])
+		# 	Line(points=[20, 50, 500, 50])
+
+	def update(self, *args):
+		rssservice = RSSService()
+		data = rssservice.fetch_data()
+		self.text = data
+
+
+class MainApp(App):
 	# Config.set('graphics', 'fullscreen', 1)
 	Config.set('graphics', 'width', '1920')
 	Config.set('graphics', 'height', '1080')
@@ -65,6 +80,7 @@ class MainApp(App):
 	def build(self):
 		layout = CustomLayout()
 		# Clock.schedule_once(layout.ids.wallpaper.random_image, 1)
+
 		Clock.schedule_interval(layout.ids.time.update, 1)
 		Clock.schedule_interval(layout.ids.time_shadow.update, 1)
 		Clock.schedule_interval(layout.ids.date.update, 1)
@@ -80,6 +96,9 @@ class MainApp(App):
 		Clock.schedule_once(layout.ids.temperature.update, 1)
 		Clock.schedule_once(layout.ids.temperature_shadow.update, 1)
 		Clock.schedule_once(layout.ids.temperature_icon.update_icon, 1)
+
+		Clock.schedule_once(layout.ids.news_1.update, 1)
+		Clock.schedule_once(layout.ids.news_1_shadow.update, 1)
 
 		return layout
 
