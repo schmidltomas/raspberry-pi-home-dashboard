@@ -6,7 +6,7 @@
     size_hint: None, None
 
 <Wallpaper>:
-    source: './wallpapers/03075_sunsetoverfindon_1920x1080.jpg'
+    source: './wallpapers/01947_atouchofred_1920x1080.jpg'
     size_hint: 1, 1
 
 <Label>:
@@ -62,6 +62,7 @@
             size_hint: None, None
             pos_hint: {'top': 0.15}
 
+            ### Current weather ###
             RelativeLayout:
                 pos: 80, 0
 
@@ -75,12 +76,57 @@
 
                 TemperatureIcon:
                     id: temperature_icon
-                    pos: 115, -8
+                    pos: 125, -35
+
+            RelativeLayout:
+                pos: 380, 0
+
+                Temperature:
+                    id: temperature_1_shadow
+                    pos: 1, -1
+                    color: 0, 0, 0, .5
+
+                Temperature:
+                    id: temperature_1
+
+                TemperatureIcon:
+                    id: temperature_1_icon
+                    pos: 125, -35
+
+            RelativeLayout:
+                pos: 680, 0
+
+                Temperature:
+                    id: temperature_2_shadow
+                    pos: 1, -1
+                    color: 0, 0, 0, .5
+
+                Temperature:
+                    id: temperature_2
+
+                TemperatureIcon:
+                    id: temperature_2_icon
+                    pos: 125, -35
+
+            RelativeLayout:
+                pos: 980, 0
+
+                Temperature:
+                    id: temperature_3_shadow
+                    pos: 1, -1
+                    color: 0, 0, 0, .5
+
+                Temperature:
+                    id: temperature_3
+
+                TemperatureIcon:
+                    id: temperature_3_icon
+                    pos: 125, -35
 
         ### News widget ###
         RelativeLayout:
             size_hint: None, None
-            pos_hint: {'top': 0.9, 'right': 0.7}
+            pos_hint: {'top': 0.8, 'right': 0.7}
 
             RelativeLayout:
                 News:

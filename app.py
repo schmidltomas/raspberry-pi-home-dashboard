@@ -93,9 +93,33 @@ class MainApp(App):
 		layout.ids.temperature_shadow.temp = response.json()['current']['temp']
 		layout.ids.temperature_icon.icon = response.json()['current']['weather'][0]['icon']
 
+		layout.ids.temperature_1.temp = response.json()['daily'][1]['temp']['day']
+		layout.ids.temperature_1_shadow.temp = response.json()['daily'][1]['temp']['day']
+		layout.ids.temperature_1_icon.icon = response.json()['daily'][1]['weather'][0]['icon']
+
+		layout.ids.temperature_2.temp = response.json()['daily'][2]['temp']['day']
+		layout.ids.temperature_2_shadow.temp = response.json()['daily'][2]['temp']['day']
+		layout.ids.temperature_2_icon.icon = response.json()['daily'][2]['weather'][0]['icon']
+
+		layout.ids.temperature_3.temp = response.json()['daily'][3]['temp']['day']
+		layout.ids.temperature_3_shadow.temp = response.json()['daily'][3]['temp']['day']
+		layout.ids.temperature_3_icon.icon = response.json()['daily'][3]['weather'][0]['icon']
+
 		Clock.schedule_once(layout.ids.temperature.update, 1)
 		Clock.schedule_once(layout.ids.temperature_shadow.update, 1)
 		Clock.schedule_once(layout.ids.temperature_icon.update_icon, 1)
+
+		Clock.schedule_once(layout.ids.temperature_1.update, 1)
+		Clock.schedule_once(layout.ids.temperature_1_shadow.update, 1)
+		Clock.schedule_once(layout.ids.temperature_1_icon.update_icon, 1)
+
+		Clock.schedule_once(layout.ids.temperature_2.update, 1)
+		Clock.schedule_once(layout.ids.temperature_2_shadow.update, 1)
+		Clock.schedule_once(layout.ids.temperature_2_icon.update_icon, 1)
+
+		Clock.schedule_once(layout.ids.temperature_3.update, 1)
+		Clock.schedule_once(layout.ids.temperature_3_shadow.update, 1)
+		Clock.schedule_once(layout.ids.temperature_3_icon.update_icon, 1)
 
 		Clock.schedule_once(layout.ids.news_1.update, 1)
 		Clock.schedule_once(layout.ids.news_1_shadow.update, 1)
