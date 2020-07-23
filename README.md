@@ -5,13 +5,12 @@ Work in progress...
 
 (Planned) features:
 * Clock ✓
-* Personalised greeting
+* Personalised greeting ✓
 * Indoor temperature, air pressure and humidity (use sensor)
 * Weather forecast (use some web service) ✓
-* RSS news feed
+* RSS news feed ✓
 * Current time to work (use some routing API)
 * Automatic display switch off (use motion sensor)
-* Google Calendar widget
 
 Wallpapers are from interfacelift.com, which is sadly no longer running.
 

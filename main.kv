@@ -22,11 +22,15 @@
     text_size: self.width, None
     height: self.texture_size[1]
 
+<Greeting>:
+    font_size: 100
+    font_name: './fonts/OpenSans-Light.ttf'
+
 <CustomLayout>:
     FloatLayout:
         Wallpaper:
             id: wallpaper
-            pos_hint: {'center_x': .5, 'center_y': .5}
+            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
 
         ### Time and date widget ###
         RelativeLayout:
@@ -136,3 +140,17 @@
 
                 News:
                     id: news_1
+
+        ### Greeting widget ###
+        RelativeLayout:
+            size: greeting.size
+            size_hint: None, None
+            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+
+            Greeting:
+                id: greeting_shadow
+                pos: 2, -2
+                color: 0, 0, 0, .5
+
+            Greeting:
+                id: greeting

@@ -3,6 +3,7 @@
 
 from kivy.app import App
 from kivy.uix.floatlayout import FloatLayout
+from kivy.uix.relativelayout import RelativeLayout
 from kivy.uix.image import AsyncImage
 from kivy.uix.label import Label
 from kivy.graphics.vertex_instructions import Line
@@ -70,6 +71,22 @@ class News(Label):
 		self.text = data
 
 
+class Greeting(Label):
+	def __init__(self, **kwargs):
+		super(Greeting, self).__init__(**kwargs)
+		hour = int(time.strftime("%H"))
+		name = "Tomáš"
+
+		if 6 < hour < 11:
+			self.text = "Good morning, " + name
+		elif 12 < hour < 17:
+			self.text = "Good afternoon, " + name
+		elif 18 < hour < 21:
+			self.text = "Good evening, " + name
+		elif 22 < hour < 5:
+			self.text = "Good night, " + name
+
+
 class MainApp(App):
 	# Config.set('graphics', 'fullscreen', 1)
 	Config.set('graphics', 'width', '1920')
@@ -86,7 +103,6 @@ class MainApp(App):
 		Clock.schedule_interval(layout.ids.date.update, 1)
 		Clock.schedule_interval(layout.ids.date_shadow.update, 1)
 
-		# TODO temperature updated only once
 		owm_service = OWMService()
 		response = owm_service.fetch_data()
 		layout.ids.temperature.temp = response.json()['current']['temp']
