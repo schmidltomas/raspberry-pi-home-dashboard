@@ -6,7 +6,8 @@ from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.relativelayout import RelativeLayout
 from kivy.uix.image import AsyncImage
 from kivy.uix.label import Label
-from kivy.graphics.vertex_instructions import Line
+from kivy.graphics.vertex_instructions import Line, RoundedRectangle
+from kivy.graphics.context_instructions import Color
 from kivy.config import Config
 from kivy.clock import Clock
 
@@ -57,18 +58,59 @@ class TemperatureIcon(AsyncImage):
 		self.reload()
 
 
+class NewsWidgetLayout(RelativeLayout):
+	pass
+
+
+class NewsWidget(NewsWidgetLayout):
+	rss_service = None
+
+	def __init__(self, **kwargs):
+		super(NewsWidget, self).__init__(**kwargs)
+		self.rss_service = RSSService()
+
+		with self.canvas:
+			Color(1, 1, 1, .08, mode='rgba')
+			RoundedRectangle(pos=(0, -200), size=(760, 300), radius=[(8, 8), (8, 8), (8, 8), (8, 8)])
+			Color(1, 1, 1, .2, mode='rgba')
+			Line(points=[15, 0, 745, 0])
+			Line(points=[15, -100, 745, -100])
+
+	def update(self, *args):
+		data = self.rss_service.fetch_data()
+
+		self.children[2].title = data[0]['title']
+		self.children[2].image_url = data[0]['image_url']
+		self.children[2].published = data[0]['published']
+		self.children[1].title = data[1]['title']
+		self.children[1].image_url = data[1]['image_url']
+		self.children[1].published = data[1]['published']
+		self.children[0].title = data[2]['title']
+		self.children[0].image_url = data[2]['image_url']
+		self.children[0].published = data[2]['published']
+
+
+class NewsTitle(RelativeLayout):
+	pass
+
+
 class News(Label):
 	def __init__(self, **kwargs):
 		super(News, self).__init__(**kwargs)
+		self.bind(size=self.concat_length)
 
-		# with self.canvas:
-		# 	Line(points=[20, 150, 500, 150])
-		# 	Line(points=[20, 50, 500, 50])
+	def update_text(self, *args):
+		self.text = self.parent.parent.published + ' • ' + self.parent.parent.title
 
-	def update(self, *args):
-		rssservice = RSSService()
-		data = rssservice.fetch_data()
-		self.text = data
+	def concat_length(self, *args):
+		if self.size[1] > 95:
+			self.text = self.text[0:95] + '...'
+
+
+class NewsImage(AsyncImage):
+	def update_image(self, *args):
+		self.source = self.parent.image_url
+		self.reload()
 
 
 class Greeting(Label):
@@ -137,8 +179,19 @@ class MainApp(App):
 		Clock.schedule_once(layout.ids.temperature_3_shadow.update, 1)
 		Clock.schedule_once(layout.ids.temperature_3_icon.update_icon, 1)
 
-		Clock.schedule_once(layout.ids.news_1.update, 1)
-		Clock.schedule_once(layout.ids.news_1_shadow.update, 1)
+		Clock.schedule_once(layout.ids.news_widget.update, 1)
+
+		Clock.schedule_once(layout.ids.news_1_image.update_image, 1)
+		Clock.schedule_once(layout.ids.news_1.update_text, 1)
+		Clock.schedule_once(layout.ids.news_1_shadow.update_text, 1)
+
+		Clock.schedule_once(layout.ids.news_2_image.update_image, 1)
+		Clock.schedule_once(layout.ids.news_2.update_text, 1)
+		Clock.schedule_once(layout.ids.news_2_shadow.update_text, 1)
+
+		Clock.schedule_once(layout.ids.news_3_image.update_image, 1)
+		Clock.schedule_once(layout.ids.news_3.update_text, 1)
+		Clock.schedule_once(layout.ids.news_3_shadow.update_text, 1)
 
 		return layout
 

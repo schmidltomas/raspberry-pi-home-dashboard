@@ -7,4 +7,5 @@
     * news widget each hour/half hour
     * greetings widget each hour
     * traffic widget each 5 minutes 6-8 AM, then each hour
-* make news widget align to top according to its size
+* news widget:
+    * size background and lines accordingly to text size

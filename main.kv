@@ -15,10 +15,19 @@
     font_name: './fonts/OpenSans-Light.ttf'
     font_size: 50
 
+<NewsImage>:
+    size_x: 100
+    size_hint: None, None
+    pos_hint: {'right': 0.17}
+    mipmap: True
+
+<NewsTitle>:
+    pos: 120, 20
+
 <News>:
-    size: 600, 600
+    size: 600, 0
     font_name: './fonts/OpenSans-Regular.ttf'
-    font_size: 25
+    font_size: 24
     text_size: self.width, None
     height: self.texture_size[1]
 
@@ -128,18 +137,56 @@
                     pos: 125, -35
 
         ### News widget ###
-        RelativeLayout:
+        NewsWidget:
+            id: news_widget
+            size: news_1.size
             size_hint: None, None
-            pos_hint: {'top': 0.8, 'right': 0.7}
+            pos_hint: {'top': 0.94, 'right': 0.89}
 
-            RelativeLayout:
-                News:
-                    id: news_1_shadow
-                    pos: 1, -1
-                    color: 0, 0, 0, .5
+            NewsWidgetLayout:
+                pos: 20, 0
 
-                News:
-                    id: news_1
+                NewsImage:
+                    id: news_1_image
+
+                NewsTitle:
+                    id: news_1_title
+                    News:
+                        id: news_1_shadow
+                        pos: 1, -1
+                        color: 0, 0, 0, .5
+                    News:
+                        id: news_1
+
+            NewsWidgetLayout:
+                pos: 20, -100
+
+                NewsImage:
+                    id: news_2_image
+
+                NewsTitle:
+                    id: news_2_title
+                    News:
+                        id: news_2_shadow
+                        pos: 1, -1
+                        color: 0, 0, 0, .5
+                    News:
+                        id: news_2
+
+            NewsWidgetLayout:
+                pos: 20, -200
+
+                NewsImage:
+                    id: news_3_image
+
+                NewsTitle:
+                    id: news_3_title
+                    News:
+                        id: news_3_shadow
+                        pos: 1, -1
+                        color: 0, 0, 0, .5
+                    News:
+                        id: news_3
 
         ### Greeting widget ###
         RelativeLayout:
