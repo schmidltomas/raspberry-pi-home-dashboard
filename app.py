@@ -42,27 +42,46 @@ class Date(Label):
 		self.text = time.strftime("%a %d %B")
 
 
-class Temperature(Label):
-	temp = None
+class WeatherWidget(RelativeLayout):
+	owm_service = None
+
+	def __init__(self, **kwargs):
+		super(WeatherWidget, self).__init__(**kwargs)
+		self.owm_service = OWMService()
+
+		with self.canvas:
+			Color(1, 1, 1, .1, mode='rgba')
+			RoundedRectangle(pos=(-25, -30), size=(1000, 100), radius=[(8, 8), (8, 8), (8, 8), (8, 8)])
 
 	def update(self, *args):
-		self.text = str(str(self.temp).split(".")[0]) + "°C"
+		data = self.owm_service.fetch_data()
+
+		self.children[3].temperature = data[0]['temperature']
+		self.children[3].icon_url = data[0]['icon_url']
+		self.children[2].temperature = data[1]['temperature']
+		self.children[2].icon_url = data[1]['icon_url']
+		self.children[1].temperature = data[2]['temperature']
+		self.children[1].icon_url = data[2]['icon_url']
+		self.children[0].temperature = data[3]['temperature']
+		self.children[0].icon_url = data[3]['icon_url']
 
 
-class TemperatureIcon(AsyncImage):
-	icon = None
-
-	def update_icon(self, *args):
-		owm_service = OWMService()
-		self.source = owm_service.get_icon_url(self.icon)
-		self.reload()
-
-
-class NewsWidgetLayout(RelativeLayout):
+class Weather(RelativeLayout):
 	pass
 
 
-class NewsWidget(NewsWidgetLayout):
+class Temperature(Label):
+	def update(self, *args):
+		self.text = self.parent.temperature
+
+
+class TemperatureIcon(AsyncImage):
+	def update_icon(self, *args):
+		self.source = self.parent.icon_url
+		self.reload()
+
+
+class NewsWidget(RelativeLayout):
 	rss_service = None
 
 	def __init__(self, **kwargs):
@@ -70,7 +89,7 @@ class NewsWidget(NewsWidgetLayout):
 		self.rss_service = RSSService()
 
 		with self.canvas:
-			Color(1, 1, 1, .08, mode='rgba')
+			Color(1, 1, 1, .1, mode='rgba')
 			RoundedRectangle(pos=(0, -200), size=(760, 300), radius=[(8, 8), (8, 8), (8, 8), (8, 8)])
 			Color(1, 1, 1, .2, mode='rgba')
 			Line(points=[15, 0, 745, 0])
@@ -88,6 +107,10 @@ class NewsWidget(NewsWidgetLayout):
 		self.children[0].title = data[2]['title']
 		self.children[0].image_url = data[2]['image_url']
 		self.children[0].published = data[2]['published']
+
+
+class NewsLine(RelativeLayout):
+	pass
 
 
 class NewsTitle(RelativeLayout):
@@ -138,30 +161,18 @@ class MainApp(App):
 
 	def build(self):
 		layout = CustomLayout()
+
+		# Wallpaper
 		# Clock.schedule_once(layout.ids.wallpaper.random_image, 1)
 
+		# Time widget
 		Clock.schedule_interval(layout.ids.time.update, 1)
 		Clock.schedule_interval(layout.ids.time_shadow.update, 1)
 		Clock.schedule_interval(layout.ids.date.update, 1)
 		Clock.schedule_interval(layout.ids.date_shadow.update, 1)
 
-		owm_service = OWMService()
-		response = owm_service.fetch_data()
-		layout.ids.temperature.temp = response.json()['current']['temp']
-		layout.ids.temperature_shadow.temp = response.json()['current']['temp']
-		layout.ids.temperature_icon.icon = response.json()['current']['weather'][0]['icon']
-
-		layout.ids.temperature_1.temp = response.json()['daily'][1]['temp']['day']
-		layout.ids.temperature_1_shadow.temp = response.json()['daily'][1]['temp']['day']
-		layout.ids.temperature_1_icon.icon = response.json()['daily'][1]['weather'][0]['icon']
-
-		layout.ids.temperature_2.temp = response.json()['daily'][2]['temp']['day']
-		layout.ids.temperature_2_shadow.temp = response.json()['daily'][2]['temp']['day']
-		layout.ids.temperature_2_icon.icon = response.json()['daily'][2]['weather'][0]['icon']
-
-		layout.ids.temperature_3.temp = response.json()['daily'][3]['temp']['day']
-		layout.ids.temperature_3_shadow.temp = response.json()['daily'][3]['temp']['day']
-		layout.ids.temperature_3_icon.icon = response.json()['daily'][3]['weather'][0]['icon']
+		# Weather widget
+		Clock.schedule_once(layout.ids.weather_widget.update, 1)
 
 		Clock.schedule_once(layout.ids.temperature.update, 1)
 		Clock.schedule_once(layout.ids.temperature_shadow.update, 1)
@@ -179,6 +190,7 @@ class MainApp(App):
 		Clock.schedule_once(layout.ids.temperature_3_shadow.update, 1)
 		Clock.schedule_once(layout.ids.temperature_3_icon.update_icon, 1)
 
+		# News widget
 		Clock.schedule_once(layout.ids.news_widget.update, 1)
 
 		Clock.schedule_once(layout.ids.news_1_image.update_image, 1)

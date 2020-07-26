@@ -9,3 +9,4 @@
     * traffic widget each 5 minutes 6-8 AM, then each hour
 * news widget:
     * size background and lines accordingly to text size
+* each widget to its own module?

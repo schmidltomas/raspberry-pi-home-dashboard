@@ -14,7 +14,7 @@ def format_time(published_parsed):
 
 
 class RSSService:
-	url = "http://feeds.bbci.co.uk/news/video_and_audio/news_front_page/rss.xml?edition=uk"
+	url = "https://ct24.ceskatelevize.cz/rss/hlavni-zpravy"
 
 	def fetch_data(self):
 		news_feed = feedparser.parse(self.url)
@@ -22,11 +22,10 @@ class RSSService:
 		data = []
 		for i in range(3):
 			entry = news_feed.entries[i]
-			entry_dict = {
+			data.append({
 				"title": entry.title,
 				"image_url": entry.media_content[0]['url'],
 				"published": format_time(entry.published_parsed)
-			}
-			data.append(entry_dict)
+			})
 
 		return data

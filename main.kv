@@ -1,10 +1,3 @@
-<Time>:
-
-<Temperature>:
-
-<TemperatureIcon>:
-    size_hint: None, None
-
 <Wallpaper>:
     source: './wallpapers/01947_atouchofred_1920x1080.jpg'
     size_hint: 1, 1
@@ -14,6 +7,17 @@
     size_hint: None, None
     font_name: './fonts/OpenSans-Light.ttf'
     font_size: 50
+
+<Time>:
+    font_size: 110
+
+<Date>:
+    font_size: 55
+
+<Temperature>:
+
+<TemperatureIcon>:
+    size_hint: None, None
 
 <NewsImage>:
     size_x: 100
@@ -52,12 +56,10 @@
                 Time:
                     id: time_shadow
                     pos: 1, -1
-                    font_size: 100
                     color: 0, 0, 0, .5
 
                 Time:
                     id: time
-                    font_size: 100
 
             RelativeLayout:
                 pos: 70, -130
@@ -71,13 +73,13 @@
                     id: date
 
         ### Weather widget ###
-        RelativeLayout:
+        WeatherWidget:
+            id: weather_widget
             size_hint: None, None
-            pos_hint: {'top': 0.15}
+            pos_hint: {'top': 0.15, 'right': 0.09}
 
             ### Current weather ###
-            RelativeLayout:
-                pos: 80, 0
+            Weather:
 
                 Temperature:
                     id: temperature_shadow
@@ -89,10 +91,11 @@
 
                 TemperatureIcon:
                     id: temperature_icon
-                    pos: 125, -35
+                    pos: 120, -35
 
-            RelativeLayout:
-                pos: 380, 0
+            ### Forecast ###
+            Weather:
+                pos: 250, 0
 
                 Temperature:
                     id: temperature_1_shadow
@@ -104,10 +107,10 @@
 
                 TemperatureIcon:
                     id: temperature_1_icon
-                    pos: 125, -35
+                    pos: 120, -35
 
-            RelativeLayout:
-                pos: 680, 0
+            Weather:
+                pos: 500, 0
 
                 Temperature:
                     id: temperature_2_shadow
@@ -119,10 +122,10 @@
 
                 TemperatureIcon:
                     id: temperature_2_icon
-                    pos: 125, -35
+                    pos: 120, -35
 
-            RelativeLayout:
-                pos: 980, 0
+            Weather:
+                pos: 750, 0
 
                 Temperature:
                     id: temperature_3_shadow
@@ -134,16 +137,16 @@
 
                 TemperatureIcon:
                     id: temperature_3_icon
-                    pos: 125, -35
+                    pos: 120, -35
 
         ### News widget ###
         NewsWidget:
             id: news_widget
             size: news_1.size
             size_hint: None, None
-            pos_hint: {'top': 0.94, 'right': 0.89}
+            pos_hint: {'top': 0.93, 'right': 0.89}
 
-            NewsWidgetLayout:
+            NewsLine:
                 pos: 20, 0
 
                 NewsImage:
@@ -158,7 +161,7 @@
                     News:
                         id: news_1
 
-            NewsWidgetLayout:
+            NewsLine:
                 pos: 20, -100
 
                 NewsImage:
@@ -173,7 +176,7 @@
                     News:
                         id: news_2
 
-            NewsWidgetLayout:
+            NewsLine:
                 pos: 20, -200
 
                 NewsImage:
