@@ -14,10 +14,22 @@
 <Date>:
     font_size: 55
 
+<WeatherLabel>:
+    font_name: './fonts/OpenSans-SemiBold.ttf'
+    font_size: 18
+
+<WeatherLabelLayout>:
+    pos: 50, 60
+
 <Temperature>:
 
 <TemperatureIcon>:
+    size: 55, 55
     size_hint: None, None
+    mipmap: True
+
+<TemperatureIconLayout>:
+    pos: 130, -10
 
 <NewsImage>:
     size_x: 100
@@ -81,21 +93,44 @@
             ### Current weather ###
             Weather:
 
+                WeatherLabelLayout:
+                    WeatherLabel:
+                        id: weather_0_label_shadow
+                        pos: 1, -1
+                        color: 0, 0, 0, .5
+
+                    WeatherLabel:
+                        id: weather_0_label
+
                 Temperature:
-                    id: temperature_shadow
+                    id: temperature_0_shadow
                     pos: 1, -1
                     color: 0, 0, 0, .5
 
                 Temperature:
-                    id: temperature
+                    id: temperature_0
 
-                TemperatureIcon:
-                    id: temperature_icon
-                    pos: 120, -35
+                TemperatureIconLayout:
+                    TemperatureIcon:
+                        id: temperature_0_icon_shadow
+                        pos: 1, -1
+                        color: 0, 0, 0, .5
+
+                    TemperatureIcon:
+                        id: temperature_0_icon
 
             ### Forecast ###
             Weather:
                 pos: 250, 0
+
+                WeatherLabelLayout:
+                    WeatherLabel:
+                        id: weather_1_label_shadow
+                        pos: 1, -1
+                        color: 0, 0, 0, .5
+
+                    WeatherLabel:
+                        id: weather_1_label
 
                 Temperature:
                     id: temperature_1_shadow
@@ -105,12 +140,27 @@
                 Temperature:
                     id: temperature_1
 
-                TemperatureIcon:
-                    id: temperature_1_icon
-                    pos: 120, -35
+                TemperatureIconLayout:
+                    TemperatureIcon:
+                        id: temperature_1_icon_shadow
+                        pos: 1, -1
+                        color: 0, 0, 0, .5
+
+                    TemperatureIcon:
+                        id: temperature_1_icon
+
 
             Weather:
                 pos: 500, 0
+
+                WeatherLabelLayout:
+                    WeatherLabel:
+                        id: weather_2_label_shadow
+                        pos: 1, -1
+                        color: 0, 0, 0, .5
+
+                    WeatherLabel:
+                        id: weather_2_label
 
                 Temperature:
                     id: temperature_2_shadow
@@ -120,12 +170,26 @@
                 Temperature:
                     id: temperature_2
 
-                TemperatureIcon:
-                    id: temperature_2_icon
-                    pos: 120, -35
+                TemperatureIconLayout:
+                    TemperatureIcon:
+                        id: temperature_2_icon_shadow
+                        pos: 1, -1
+                        color: 0, 0, 0, .5
+
+                    TemperatureIcon:
+                        id: temperature_2_icon
 
             Weather:
                 pos: 750, 0
+
+                WeatherLabelLayout:
+                    WeatherLabel:
+                        id: weather_3_label_shadow
+                        pos: 1, -1
+                        color: 0, 0, 0, .5
+
+                    WeatherLabel:
+                        id: weather_3_label
 
                 Temperature:
                     id: temperature_3_shadow
@@ -135,9 +199,15 @@
                 Temperature:
                     id: temperature_3
 
-                TemperatureIcon:
-                    id: temperature_3_icon
-                    pos: 120, -35
+                TemperatureIconLayout:
+                    TemperatureIcon:
+                        id: temperature_3_icon_shadow
+                        pos: 1, -1
+                        color: 0, 0, 0, .5
+
+                    TemperatureIcon:
+                        id: temperature_3_icon
+
 
         ### News widget ###
         NewsWidget:

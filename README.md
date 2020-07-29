@@ -14,6 +14,8 @@ Work in progress...
 
 Wallpapers are from interfacelift.com, which is sadly no longer running.
 
+Icons by ProSymbols at Noun Project (https://thenounproject.com/prosymbols/collection/weather-line-icons/)
+
 # Dependencies
 * Kivy (https://kivy.org/#home)
 * feedparser (https://pythonhosted.org/feedparser/)
