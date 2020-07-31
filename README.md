@@ -12,9 +12,12 @@ Work in progress...
 * Current time to work (use some routing API)
 * Automatic display switch off (use motion sensor)
 
+# Attributions
 Wallpapers are from interfacelift.com, which is sadly no longer running.
 
-Icons by ProSymbols at Noun Project (https://thenounproject.com/prosymbols/collection/weather-line-icons/)
+Weather data and weather icons by [The Norwegian Meteorological Institute](https://www.met.no/en), under the [Norwegian Licence for Open Government Data (NLOD) 2.0](https://data.norge.no/nlod/en/2.0/) and [Creative Commons 4.0 BY International](https://creativecommons.org/licenses/by/4.0/) licences.
+
+OpenSans font by Steve Matteson at [Google Fonts](https://fonts.google.com/), licensed under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0).  
 
 # Dependencies
 * Kivy (https://kivy.org/#home)

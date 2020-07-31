@@ -11,3 +11,4 @@
     * size background and lines accordingly to text size
 * each widget to its own module?
 * instance class all shadow widgets with -1,-1 pos and color
+* implement caching in METService

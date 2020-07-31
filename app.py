@@ -15,7 +15,7 @@ import time
 import glob
 import random
 
-from service.owmservice import OWMService
+from service.metservice import METService
 from service.rssservice import RSSService
 
 
@@ -43,34 +43,30 @@ class Date(Label):
 
 
 class WeatherWidget(RelativeLayout):
-	owm_service = None
+	met_service = None
 
 	def __init__(self, **kwargs):
 		super(WeatherWidget, self).__init__(**kwargs)
-		self.owm_service = OWMService()
+		self.met_service = METService()
 
 		with self.canvas:
 			Color(1, 1, 1, .1, mode='rgba')
 			RoundedRectangle(pos=(-25, -30), size=(985, 120), radius=[(8, 8), (8, 8), (8, 8), (8, 8)])
 
 	def update(self, *args):
-		data = self.owm_service.fetch_data()
+		data = self.met_service.fetch_data()
 
 		self.children[3].temperature = data[0]['temperature']
 		self.children[3].description = data[0]['description']
-		self.children[3].icon_url = data[0]['icon_url']
 		self.children[3].weekday = data[0]['weekday']
 		self.children[2].temperature = data[1]['temperature']
 		self.children[2].description = data[1]['description']
-		self.children[2].icon_url = data[1]['icon_url']
 		self.children[2].weekday = data[1]['weekday']
 		self.children[1].temperature = data[2]['temperature']
 		self.children[1].description = data[2]['description']
-		self.children[1].icon_url = data[2]['icon_url']
 		self.children[1].weekday = data[2]['weekday']
 		self.children[0].temperature = data[3]['temperature']
 		self.children[0].description = data[3]['description']
-		self.children[0].icon_url = data[3]['icon_url']
 		self.children[0].weekday = data[3]['weekday']
 
 
@@ -94,15 +90,7 @@ class Temperature(Label):
 
 class TemperatureIcon(AsyncImage):
 	def update_icon(self, *args):
-		if self.parent.parent.description == 'clear sky':
-			self.source = './icons/noun_sun_641671.png'
-		elif self.parent.parent.description == 'light rain':
-			self.source = './icons/noun_sunny_raining_641723.png'
-		elif self.parent.parent.description == 'heavy intensity rain':
-			self.source = './icons/noun_raining_641705.png'
-		else:
-			self.source = self.parent.parent.icon_url
-
+		self.source = './icons/' + self.parent.parent.description + '.png'
 		self.reload()
 
 
@@ -208,28 +196,24 @@ class MainApp(App):
 		Clock.schedule_once(layout.ids.temperature_0.update, 1)
 		Clock.schedule_once(layout.ids.temperature_0_shadow.update, 1)
 		Clock.schedule_once(layout.ids.temperature_0_icon.update_icon, 1)
-		Clock.schedule_once(layout.ids.temperature_0_icon_shadow.update_icon, 1)
 
 		Clock.schedule_once(layout.ids.weather_1_label.update, 1)
 		Clock.schedule_once(layout.ids.weather_1_label_shadow.update, 1)
 		Clock.schedule_once(layout.ids.temperature_1.update, 1)
 		Clock.schedule_once(layout.ids.temperature_1_shadow.update, 1)
 		Clock.schedule_once(layout.ids.temperature_1_icon.update_icon, 1)
-		Clock.schedule_once(layout.ids.temperature_1_icon_shadow.update_icon, 1)
 
 		Clock.schedule_once(layout.ids.weather_2_label.update, 1)
 		Clock.schedule_once(layout.ids.weather_2_label_shadow.update, 1)
 		Clock.schedule_once(layout.ids.temperature_2.update, 1)
 		Clock.schedule_once(layout.ids.temperature_2_shadow.update, 1)
 		Clock.schedule_once(layout.ids.temperature_2_icon.update_icon, 1)
-		Clock.schedule_once(layout.ids.temperature_2_icon_shadow.update_icon, 1)
 
 		Clock.schedule_once(layout.ids.weather_3_label.update, 1)
 		Clock.schedule_once(layout.ids.weather_3_label_shadow.update, 1)
 		Clock.schedule_once(layout.ids.temperature_3.update, 1)
 		Clock.schedule_once(layout.ids.temperature_3_shadow.update, 1)
 		Clock.schedule_once(layout.ids.temperature_3_icon.update_icon, 1)
-		Clock.schedule_once(layout.ids.temperature_3_icon_shadow.update_icon, 1)
 
 		# News widget
 		Clock.schedule_once(layout.ids.news_widget.update, 1)

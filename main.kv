@@ -90,9 +90,7 @@
             size_hint: None, None
             pos_hint: {'top': 0.15, 'right': 0.09}
 
-            ### Current weather ###
             Weather:
-
                 WeatherLabelLayout:
                     WeatherLabel:
                         id: weather_0_label_shadow
@@ -112,14 +110,8 @@
 
                 TemperatureIconLayout:
                     TemperatureIcon:
-                        id: temperature_0_icon_shadow
-                        pos: 1, -1
-                        color: 0, 0, 0, .5
-
-                    TemperatureIcon:
                         id: temperature_0_icon
 
-            ### Forecast ###
             Weather:
                 pos: 250, 0
 
@@ -142,13 +134,7 @@
 
                 TemperatureIconLayout:
                     TemperatureIcon:
-                        id: temperature_1_icon_shadow
-                        pos: 1, -1
-                        color: 0, 0, 0, .5
-
-                    TemperatureIcon:
                         id: temperature_1_icon
-
 
             Weather:
                 pos: 500, 0
@@ -171,11 +157,6 @@
                     id: temperature_2
 
                 TemperatureIconLayout:
-                    TemperatureIcon:
-                        id: temperature_2_icon_shadow
-                        pos: 1, -1
-                        color: 0, 0, 0, .5
-
                     TemperatureIcon:
                         id: temperature_2_icon
 
@@ -201,13 +182,7 @@
 
                 TemperatureIconLayout:
                     TemperatureIcon:
-                        id: temperature_3_icon_shadow
-                        pos: 1, -1
-                        color: 0, 0, 0, .5
-
-                    TemperatureIcon:
                         id: temperature_3_icon
-
 
         ### News widget ###
         NewsWidget:
