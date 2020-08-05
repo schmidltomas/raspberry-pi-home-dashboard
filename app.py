@@ -51,23 +51,26 @@ class WeatherWidget(RelativeLayout):
 
 		with self.canvas:
 			Color(1, 1, 1, .1, mode='rgba')
-			RoundedRectangle(pos=(-25, -30), size=(985, 120), radius=[(8, 8), (8, 8), (8, 8), (8, 8)])
+			RoundedRectangle(pos=(-25, -25), size=(985, 240), radius=[(8, 8), (8, 8), (8, 8), (8, 8)])
+			Color(1, 1, 1, .2, mode='rgba')
+			Line(points=[220, 190, 220, 0])
+			Line(points=[470, 190, 470, 0])
+			Line(points=[720, 190, 720, 0])
 
 	def update(self, *args):
 		data = self.met_service.fetch_data()
 
-		self.children[3].temperature = data[0]['temperature']
-		self.children[3].description = data[0]['description']
-		self.children[3].weekday = data[0]['weekday']
-		self.children[2].temperature = data[1]['temperature']
-		self.children[2].description = data[1]['description']
-		self.children[2].weekday = data[1]['weekday']
-		self.children[1].temperature = data[2]['temperature']
-		self.children[1].description = data[2]['description']
-		self.children[1].weekday = data[2]['weekday']
-		self.children[0].temperature = data[3]['temperature']
-		self.children[0].description = data[3]['description']
-		self.children[0].weekday = data[3]['weekday']
+		data_index = 11
+		for i in range(0, 4):
+			for j in range(2, -1, -1):
+				self.children[i].children[j].temperature = data[data_index]['temperature']
+				self.children[i].children[j].description = data[data_index]['description']
+				self.children[i].children[j].weekday = data[data_index]['weekday']
+				data_index -= 1
+
+
+class WeatherDay(RelativeLayout):
+	pass
 
 
 class Weather(RelativeLayout):
@@ -83,9 +86,13 @@ class WeatherLabelLayout(RelativeLayout):
 	pass
 
 
+class TemperatureLabelLayout(RelativeLayout):
+	pass
+
+
 class Temperature(Label):
 	def update(self, *args):
-		self.text = self.parent.temperature
+		self.text = self.parent.parent.temperature
 
 
 class TemperatureIcon(AsyncImage):
@@ -115,15 +122,12 @@ class NewsWidget(RelativeLayout):
 	def update(self, *args):
 		data = self.rss_service.fetch_data()
 
-		self.children[2].title = data[0]['title']
-		self.children[2].image_url = data[0]['image_url']
-		self.children[2].published = data[0]['published']
-		self.children[1].title = data[1]['title']
-		self.children[1].image_url = data[1]['image_url']
-		self.children[1].published = data[1]['published']
-		self.children[0].title = data[2]['title']
-		self.children[0].image_url = data[2]['image_url']
-		self.children[0].published = data[2]['published']
+		data_index = 0
+		for i in range(2, -1, -1):
+			self.children[i].title = data[data_index]['title']
+			self.children[i].image_url = data[data_index]['image_url']
+			self.children[i].published = data[data_index]['published']
+			data_index += 1
 
 
 class NewsLine(RelativeLayout):
@@ -143,8 +147,11 @@ class News(Label):
 		self.text = self.parent.parent.published + ' • ' + self.parent.parent.title
 
 	def concat_length(self, *args):
-		if self.size[1] > 94:
-			self.text = self.text[0:94] + '...'
+		if self.size[1] <= 32:
+			self.text = self.text + '\n '
+
+		if self.size[1] > 89:
+			self.text = self.text[0:89] + '...'
 
 
 class NewsImage(AsyncImage):
@@ -191,29 +198,57 @@ class MainApp(App):
 		# Weather widget
 		Clock.schedule_once(layout.ids.weather_widget.update, 1)
 
-		Clock.schedule_once(layout.ids.weather_0_label.update, 1)
-		Clock.schedule_once(layout.ids.weather_0_label_shadow.update, 1)
-		Clock.schedule_once(layout.ids.temperature_0.update, 1)
-		Clock.schedule_once(layout.ids.temperature_0_shadow.update, 1)
-		Clock.schedule_once(layout.ids.temperature_0_icon.update_icon, 1)
+		# Weather widget - today
+		Clock.schedule_once(layout.ids.temperature_0_0.update, 1)
+		Clock.schedule_once(layout.ids.temperature_0_0_shadow.update, 1)
+		Clock.schedule_once(layout.ids.temperature_0_0_icon.update_icon, 1)
+		Clock.schedule_once(layout.ids.temperature_0_1.update, 1)
+		Clock.schedule_once(layout.ids.temperature_0_1_shadow.update, 1)
+		Clock.schedule_once(layout.ids.temperature_0_1_icon.update_icon, 1)
+		Clock.schedule_once(layout.ids.weather_0_2_label.update, 1)
+		Clock.schedule_once(layout.ids.weather_0_2_label_shadow.update, 1)
+		Clock.schedule_once(layout.ids.temperature_0_2.update, 1)
+		Clock.schedule_once(layout.ids.temperature_0_2_shadow.update, 1)
+		Clock.schedule_once(layout.ids.temperature_0_2_icon.update_icon, 1)
 
-		Clock.schedule_once(layout.ids.weather_1_label.update, 1)
-		Clock.schedule_once(layout.ids.weather_1_label_shadow.update, 1)
-		Clock.schedule_once(layout.ids.temperature_1.update, 1)
-		Clock.schedule_once(layout.ids.temperature_1_shadow.update, 1)
-		Clock.schedule_once(layout.ids.temperature_1_icon.update_icon, 1)
+		# Weather widget - tomorrow
+		Clock.schedule_once(layout.ids.temperature_1_0.update, 1)
+		Clock.schedule_once(layout.ids.temperature_1_0_shadow.update, 1)
+		Clock.schedule_once(layout.ids.temperature_1_0_icon.update_icon, 1)
+		Clock.schedule_once(layout.ids.temperature_1_1.update, 1)
+		Clock.schedule_once(layout.ids.temperature_1_1_shadow.update, 1)
+		Clock.schedule_once(layout.ids.temperature_1_1_icon.update_icon, 1)
+		Clock.schedule_once(layout.ids.weather_1_2_label.update, 1)
+		Clock.schedule_once(layout.ids.weather_1_2_label_shadow.update, 1)
+		Clock.schedule_once(layout.ids.temperature_1_2.update, 1)
+		Clock.schedule_once(layout.ids.temperature_1_2_shadow.update, 1)
+		Clock.schedule_once(layout.ids.temperature_1_2_icon.update_icon, 1)
 
-		Clock.schedule_once(layout.ids.weather_2_label.update, 1)
-		Clock.schedule_once(layout.ids.weather_2_label_shadow.update, 1)
-		Clock.schedule_once(layout.ids.temperature_2.update, 1)
-		Clock.schedule_once(layout.ids.temperature_2_shadow.update, 1)
-		Clock.schedule_once(layout.ids.temperature_2_icon.update_icon, 1)
+		# Weather widget - tomorrow + 1
+		Clock.schedule_once(layout.ids.temperature_2_0.update, 1)
+		Clock.schedule_once(layout.ids.temperature_2_0_shadow.update, 1)
+		Clock.schedule_once(layout.ids.temperature_2_0_icon.update_icon, 1)
+		Clock.schedule_once(layout.ids.temperature_2_1.update, 1)
+		Clock.schedule_once(layout.ids.temperature_2_1_shadow.update, 1)
+		Clock.schedule_once(layout.ids.temperature_2_1_icon.update_icon, 1)
+		Clock.schedule_once(layout.ids.weather_2_2_label.update, 1)
+		Clock.schedule_once(layout.ids.weather_2_2_label_shadow.update, 1)
+		Clock.schedule_once(layout.ids.temperature_2_2.update, 1)
+		Clock.schedule_once(layout.ids.temperature_2_2_shadow.update, 1)
+		Clock.schedule_once(layout.ids.temperature_2_2_icon.update_icon, 1)
 
-		Clock.schedule_once(layout.ids.weather_3_label.update, 1)
-		Clock.schedule_once(layout.ids.weather_3_label_shadow.update, 1)
-		Clock.schedule_once(layout.ids.temperature_3.update, 1)
-		Clock.schedule_once(layout.ids.temperature_3_shadow.update, 1)
-		Clock.schedule_once(layout.ids.temperature_3_icon.update_icon, 1)
+		# Weather widget - tomorrow + 2
+		Clock.schedule_once(layout.ids.temperature_3_0.update, 1)
+		Clock.schedule_once(layout.ids.temperature_3_0_shadow.update, 1)
+		Clock.schedule_once(layout.ids.temperature_3_0_icon.update_icon, 1)
+		Clock.schedule_once(layout.ids.temperature_3_1.update, 1)
+		Clock.schedule_once(layout.ids.temperature_3_1_shadow.update, 1)
+		Clock.schedule_once(layout.ids.temperature_3_1_icon.update_icon, 1)
+		Clock.schedule_once(layout.ids.weather_3_2_label.update, 1)
+		Clock.schedule_once(layout.ids.weather_3_2_label_shadow.update, 1)
+		Clock.schedule_once(layout.ids.temperature_3_2.update, 1)
+		Clock.schedule_once(layout.ids.temperature_3_2_shadow.update, 1)
+		Clock.schedule_once(layout.ids.temperature_3_2_icon.update_icon, 1)
 
 		# News widget
 		Clock.schedule_once(layout.ids.news_widget.update, 1)

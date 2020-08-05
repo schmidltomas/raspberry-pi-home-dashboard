@@ -3,7 +3,6 @@
 
 import requests
 import json
-import os
 import dateutil.parser
 from datetime import date
 
@@ -11,19 +10,47 @@ from datetime import date
 
 
 def get_cache_content():
-	cache_file = open("./cache.json", "r")
-	cache = cache_file.read()
-	return json.loads(cache)
+	with open("./cache.json", "r") as cache_file:
+		cache = cache_file.read()
+		return json.loads(cache)
 
 
 def save_to_cache(response):
-	os.remove('./cache.json')
-	cache_file = open("./cache.json", "w")
-	cache_dict = {
-		"last_modified": response.headers['Last-Modified'],
-		"content": response.json()
-	}
-	cache_file.write(json.dumps(cache_dict))
+	cache = get_cache_content()
+	time_series = response.json()['properties']['timeseries']
+	today = update_today_forecast(time_series, cache['today'])
+
+	with open("./cache.json", "w") as cache_file:
+		cache_dict = {
+			"last_modified": response.headers['Last-Modified'],
+			"content": response.json(),
+			"today": today
+		}
+		cache_file.write(json.dumps(cache_dict))
+
+
+def update_today_forecast(time_series, today):
+	for i in range(len(time_series)):
+		dt = dateutil.parser.isoparse(time_series[i]['time'])
+
+		item = {
+			"timestamp": time_series[i]['time'],
+			"weekday": format_weekday(dt),
+			"temperature": format_temp(time_series[i]['data']['instant']['details']['air_temperature']),
+			"description": parse_description(time_series, i)
+		}
+
+		if dt.time().hour == 6:
+			today[0] = item
+		elif dt.time().hour == 12:
+			today[1] = item
+		elif dt.time().hour == 18:
+			today[2] = item
+
+		if dt.date() != date.today():
+			break
+
+	return today
 
 
 def parse_description(time_series, i):
@@ -34,7 +61,7 @@ def parse_description(time_series, i):
 		return "no description"
 
 
-def format_temperature(temperature):
+def format_temp(temperature):
 	return str(str(temperature).split(".")[0]) + "°C"
 
 
@@ -71,14 +98,30 @@ class METService:
 		for i in range(len(time_series)):
 			dt = dateutil.parser.isoparse(time_series[i]['time'])
 
-			# if dt.time().hour == 6 or dt.time().hour == 12 or dt.time().hour == 18:
-			if dt.time().hour == 12:
-				data.append({
-					"timestamp": time_series[i]['time'],
-					"weekday": format_weekday(dt),
-					"temperature": format_temperature(time_series[i]['data']['instant']['details']['air_temperature']),
-					"description": parse_description(time_series, i)
-				})
+			# if today's forecast doesn't contain earlier hours anymore, load them from cache
+			if dt.date() == date.today():
+				if len(data) == 0:
+					data.append(cache['today'][0])
+					continue
+				if len(data) == 1:
+					data.append(cache['today'][1])
+					continue
+				if len(data) == 2:
+					data.append(cache['today'][2])
+					continue
+			else:
+				# add forecast for each next day in selected hours - 6, 12 and 18
+				if dt.time().hour == 6 or dt.time().hour == 12 or dt.time().hour == 18:
+					data.append({
+						"timestamp": time_series[i]['time'],
+						"weekday": format_weekday(dt),
+						"temperature": format_temp(time_series[i]['data']['instant']['details']['air_temperature']),
+						"description": parse_description(time_series, i)
+					})
 
+			if len(data) == 12:
+				break
+
+		print(data)
 		return data
 

@@ -22,6 +22,7 @@
     pos: 50, 60
 
 <Temperature>:
+    font_size: 44
 
 <TemperatureIcon>:
     size: 55, 55
@@ -90,99 +91,277 @@
             size_hint: None, None
             pos_hint: {'top': 0.15, 'right': 0.09}
 
-            Weather:
-                WeatherLabelLayout:
-                    WeatherLabel:
-                        id: weather_0_label_shadow
-                        pos: 1, -1
-                        color: 0, 0, 0, .5
+            ### Today ###
+            WeatherDay:
+                id: weather_day_0
+                pos: 0, 0
 
-                    WeatherLabel:
-                        id: weather_0_label
+                Weather:
+                    pos: 0, 0
 
-                Temperature:
-                    id: temperature_0_shadow
-                    pos: 1, -1
-                    color: 0, 0, 0, .5
+                    TemperatureLabelLayout:
+                        pos: 10, 5
 
-                Temperature:
-                    id: temperature_0
+                        Temperature:
+                            id: temperature_0_0_shadow
+                            pos: 1, -1
+                            color: 0, 0, 0, .5
 
-                TemperatureIconLayout:
-                    TemperatureIcon:
-                        id: temperature_0_icon
+                        Temperature:
+                            id: temperature_0_0
 
-            Weather:
+                    TemperatureIconLayout:
+                        TemperatureIcon:
+                            id: temperature_0_0_icon
+
+                Weather:
+                    pos: 0, 60
+
+                    TemperatureLabelLayout:
+                        pos: 10, 5
+
+                        Temperature:
+                            id: temperature_0_1_shadow
+                            pos: 1, -1
+                            color: 0, 0, 0, .5
+
+                        Temperature:
+                            id: temperature_0_1
+
+                    TemperatureIconLayout:
+                        TemperatureIcon:
+                            id: temperature_0_1_icon
+
+                Weather:
+                    pos: 0, 120
+
+                    WeatherLabelLayout:
+                        WeatherLabel:
+                            id: weather_0_2_label_shadow
+                            pos: 1, -1
+                            color: 0, 0, 0, .5
+
+                        WeatherLabel:
+                            id: weather_0_2_label
+
+                    TemperatureLabelLayout:
+                        pos: 10, 5
+
+                        Temperature:
+                            id: temperature_0_2_shadow
+                            pos: 1, -1
+                            color: 0, 0, 0, .5
+
+                        Temperature:
+                            id: temperature_0_2
+
+                    TemperatureIconLayout:
+                        TemperatureIcon:
+                            id: temperature_0_2_icon
+
+            ### Tomorrow ###
+            WeatherDay:
+                id: weather_day_1
                 pos: 250, 0
 
-                WeatherLabelLayout:
-                    WeatherLabel:
-                        id: weather_1_label_shadow
-                        pos: 1, -1
-                        color: 0, 0, 0, .5
+                Weather:
+                    pos: 0, 0
 
-                    WeatherLabel:
-                        id: weather_1_label
+                    TemperatureLabelLayout:
+                        pos: 10, 5
 
-                Temperature:
-                    id: temperature_1_shadow
-                    pos: 1, -1
-                    color: 0, 0, 0, .5
+                        Temperature:
+                            id: temperature_1_0_shadow
+                            pos: 1, -1
+                            color: 0, 0, 0, .5
 
-                Temperature:
-                    id: temperature_1
+                        Temperature:
+                            id: temperature_1_0
 
-                TemperatureIconLayout:
-                    TemperatureIcon:
-                        id: temperature_1_icon
+                    TemperatureIconLayout:
+                        TemperatureIcon:
+                            id: temperature_1_0_icon
 
-            Weather:
+                Weather:
+                    pos: 0, 60
+
+                    TemperatureLabelLayout:
+                        pos: 10, 5
+
+                        Temperature:
+                            id: temperature_1_1_shadow
+                            pos: 1, -1
+                            color: 0, 0, 0, .5
+
+                        Temperature:
+                            id: temperature_1_1
+
+                    TemperatureIconLayout:
+                        TemperatureIcon:
+                            id: temperature_1_1_icon
+
+                Weather:
+                    pos: 0, 120
+
+                    WeatherLabelLayout:
+                        WeatherLabel:
+                            id: weather_1_2_label_shadow
+                            pos: 1, -1
+                            color: 0, 0, 0, .5
+
+                        WeatherLabel:
+                            id: weather_1_2_label
+
+                    TemperatureLabelLayout:
+                        pos: 10, 5
+
+                        Temperature:
+                            id: temperature_1_2_shadow
+                            pos: 1, -1
+                            color: 0, 0, 0, .5
+
+                        Temperature:
+                            id: temperature_1_2
+
+                    TemperatureIconLayout:
+                        TemperatureIcon:
+                            id: temperature_1_2_icon
+
+            ### Tomorrow + 1 ###
+            WeatherDay:
+                id: weather_day_2
                 pos: 500, 0
 
-                WeatherLabelLayout:
-                    WeatherLabel:
-                        id: weather_2_label_shadow
-                        pos: 1, -1
-                        color: 0, 0, 0, .5
+                Weather:
+                    pos: 0, 0
 
-                    WeatherLabel:
-                        id: weather_2_label
+                    TemperatureLabelLayout:
+                        pos: 10, 5
 
-                Temperature:
-                    id: temperature_2_shadow
-                    pos: 1, -1
-                    color: 0, 0, 0, .5
+                        Temperature:
+                            id: temperature_2_0_shadow
+                            pos: 1, -1
+                            color: 0, 0, 0, .5
 
-                Temperature:
-                    id: temperature_2
+                        Temperature:
+                            id: temperature_2_0
 
-                TemperatureIconLayout:
-                    TemperatureIcon:
-                        id: temperature_2_icon
+                    TemperatureIconLayout:
+                        TemperatureIcon:
+                            id: temperature_2_0_icon
 
-            Weather:
+                Weather:
+                    pos: 0, 60
+
+                    TemperatureLabelLayout:
+                        pos: 10, 5
+
+                        Temperature:
+                            id: temperature_2_1_shadow
+                            pos: 1, -1
+                            color: 0, 0, 0, .5
+
+                        Temperature:
+                            id: temperature_2_1
+
+                    TemperatureIconLayout:
+                        TemperatureIcon:
+                            id: temperature_2_1_icon
+
+                Weather:
+                    pos: 0, 120
+
+                    WeatherLabelLayout:
+                        WeatherLabel:
+                            id: weather_2_2_label_shadow
+                            pos: 1, -1
+                            color: 0, 0, 0, .5
+
+                        WeatherLabel:
+                            id: weather_2_2_label
+
+                    TemperatureLabelLayout:
+                        pos: 10, 5
+
+                        Temperature:
+                            id: temperature_2_2_shadow
+                            pos: 1, -1
+                            color: 0, 0, 0, .5
+
+                        Temperature:
+                            id: temperature_2_2
+
+                    TemperatureIconLayout:
+                        TemperatureIcon:
+                            id: temperature_2_2_icon
+
+            ### Tomorrow + 2 ###
+            WeatherDay:
+                id: weather_day_3
                 pos: 750, 0
 
-                WeatherLabelLayout:
-                    WeatherLabel:
-                        id: weather_3_label_shadow
-                        pos: 1, -1
-                        color: 0, 0, 0, .5
+                Weather:
+                    pos: 0, 0
 
-                    WeatherLabel:
-                        id: weather_3_label
+                    TemperatureLabelLayout:
+                        pos: 10, 5
 
-                Temperature:
-                    id: temperature_3_shadow
-                    pos: 1, -1
-                    color: 0, 0, 0, .5
+                        Temperature:
+                            id: temperature_3_0_shadow
+                            pos: 1, -1
+                            color: 0, 0, 0, .5
 
-                Temperature:
-                    id: temperature_3
+                        Temperature:
+                            id: temperature_3_0
 
-                TemperatureIconLayout:
-                    TemperatureIcon:
-                        id: temperature_3_icon
+                    TemperatureIconLayout:
+                        TemperatureIcon:
+                            id: temperature_3_0_icon
+
+                Weather:
+                    pos: 0, 60
+
+                    TemperatureLabelLayout:
+                        pos: 10, 5
+
+                        Temperature:
+                            id: temperature_3_1_shadow
+                            pos: 1, -1
+                            color: 0, 0, 0, .5
+
+                        Temperature:
+                            id: temperature_3_1
+
+                    TemperatureIconLayout:
+                        TemperatureIcon:
+                            id: temperature_3_1_icon
+
+                Weather:
+                    pos: 0, 120
+
+                    WeatherLabelLayout:
+                        WeatherLabel:
+                            id: weather_3_2_label_shadow
+                            pos: 1, -1
+                            color: 0, 0, 0, .5
+
+                        WeatherLabel:
+                            id: weather_3_2_label
+
+                    TemperatureLabelLayout:
+                        pos: 10, 5
+
+                        Temperature:
+                            id: temperature_3_2_shadow
+                            pos: 1, -1
+                            color: 0, 0, 0, .5
+
+                        Temperature:
+                            id: temperature_3_2
+
+                    TemperatureIconLayout:
+                        TemperatureIcon:
+                            id: temperature_3_2_icon
 
         ### News widget ###
         NewsWidget:
