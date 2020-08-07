@@ -11,8 +11,20 @@ from datetime import date
 
 def get_cache_content():
 	with open("./cache.json", "r") as cache_file:
-		cache = cache_file.read()
-		return json.loads(cache)
+		try:
+			cache = cache_file.read()
+			json_object = json.loads(cache)
+		except ValueError:
+			# if the cache is empty, return empty cache object
+			emtpy_today = [{
+				"timestamp": '',
+				"weekday": 'TODAY',
+				"temperature": '',
+				"description": 'no_image'
+			}] * 3
+			return json.loads('{"today": ' + json.dumps(emtpy_today) + ', "last_modified": null}')
+
+		return json_object
 
 
 def save_to_cache(response):
@@ -122,6 +134,5 @@ class METService:
 			if len(data) == 12:
 				break
 
-		print(data)
 		return data
 

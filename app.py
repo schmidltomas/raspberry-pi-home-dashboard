@@ -30,6 +30,10 @@ class Wallpaper(AsyncImage):
 		self.reload()
 
 
+class TimeWidget(RelativeLayout):
+	pass
+
+
 class Time(Label):
 	def update(self, *args):
 		# self.text = time.strftime("%H:%M:%S")
@@ -51,7 +55,7 @@ class WeatherWidget(RelativeLayout):
 
 		with self.canvas:
 			Color(1, 1, 1, .1, mode='rgba')
-			RoundedRectangle(pos=(-25, -25), size=(985, 240), radius=[(8, 8), (8, 8), (8, 8), (8, 8)])
+			RoundedRectangle(pos=(-25, -25), size=(985, 240), radius=[(6, 6), (6, 6), (6, 6), (6, 6)])
 			Color(1, 1, 1, .2, mode='rgba')
 			Line(points=[220, 190, 220, 0])
 			Line(points=[470, 190, 470, 0])
@@ -114,7 +118,7 @@ class NewsWidget(RelativeLayout):
 
 		with self.canvas:
 			Color(1, 1, 1, .1, mode='rgba')
-			RoundedRectangle(pos=(0, -200), size=(760, 300), radius=[(8, 8), (8, 8), (8, 8), (8, 8)])
+			RoundedRectangle(pos=(0, -200), size=(760, 300), radius=[(6, 6), (6, 6), (6, 6), (6, 6)])
 			Color(1, 1, 1, .2, mode='rgba')
 			Line(points=[15, 0, 745, 0])
 			Line(points=[15, -100, 745, -100])
@@ -160,19 +164,22 @@ class NewsImage(AsyncImage):
 		self.reload()
 
 
+class GreetingWidget(RelativeLayout):
+	pass
+
+
 class Greeting(Label):
-	def __init__(self, **kwargs):
-		super(Greeting, self).__init__(**kwargs)
+	def update(self, *args):
 		hour = int(time.strftime("%H"))
 		name = "Tomáš"
 
-		if 6 < hour < 11:
+		if 6 < hour < 12:
 			self.text = "Good morning, " + name
-		elif 12 < hour < 17:
+		elif 12 < hour < 18:
 			self.text = "Good afternoon, " + name
 		elif 18 < hour < 21:
 			self.text = "Good evening, " + name
-		elif 22 < hour < 5:
+		elif 21 < hour < 6:
 			self.text = "Good night, " + name
 
 
@@ -187,7 +194,7 @@ class MainApp(App):
 		layout = CustomLayout()
 
 		# Wallpaper
-		# Clock.schedule_once(layout.ids.wallpaper.random_image, 1)
+		Clock.schedule_once(layout.ids.wallpaper.random_image, 1)
 
 		# Time widget
 		Clock.schedule_interval(layout.ids.time.update, 1)
@@ -249,6 +256,10 @@ class MainApp(App):
 		Clock.schedule_once(layout.ids.temperature_3_2.update, 1)
 		Clock.schedule_once(layout.ids.temperature_3_2_shadow.update, 1)
 		Clock.schedule_once(layout.ids.temperature_3_2_icon.update_icon, 1)
+
+		# Greeting widget
+		Clock.schedule_once(layout.ids.greeting.update, 1)
+		Clock.schedule_once(layout.ids.greeting_shadow.update, 1)
 
 		# News widget
 		Clock.schedule_once(layout.ids.news_widget.update, 1)

@@ -9,10 +9,10 @@
     font_size: 50
 
 <Time>:
-    font_size: 110
+    font_size: 130
 
 <Date>:
-    font_size: 55
+    font_size: 70
 
 <WeatherLabel>:
     font_name: './fonts/OpenSans-SemiBold.ttf'
@@ -59,27 +59,27 @@
             pos_hint: {'center_x': 0.5, 'center_y': 0.5}
 
         ### Time and date widget ###
-        RelativeLayout:
+        TimeWidget:
             size_hint: None, None
-            pos_hint: {'top': 1}
+            pos_hint: {'top': 0.99, 'right': 0.05}
 
             RelativeLayout:
                 pos: 60, -40
 
                 Time:
                     id: time_shadow
-                    pos: 1, -1
+                    pos: 2, -2
                     color: 0, 0, 0, .5
 
                 Time:
                     id: time
 
             RelativeLayout:
-                pos: 70, -130
+                pos: 70, -150
 
                 Date:
                     id: date_shadow
-                    pos: 1, -1
+                    pos: 2, -2
                     color: 0, 0, 0, .5
 
                 Date:
@@ -416,7 +416,7 @@
                         id: news_3
 
         ### Greeting widget ###
-        RelativeLayout:
+        GreetingWidget:
             size: greeting.size
             size_hint: None, None
             pos_hint: {'center_x': 0.5, 'center_y': 0.5}
