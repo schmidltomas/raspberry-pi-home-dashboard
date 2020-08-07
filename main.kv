@@ -52,6 +52,11 @@
     font_size: 100
     font_name: './fonts/OpenSans-Light.ttf'
 
+<TrafficIcon>:
+    size: 50, 50
+    size_hint: None, None
+    mipmap: True
+
 <CustomLayout>:
     FloatLayout:
         Wallpaper:
@@ -428,3 +433,36 @@
 
             Greeting:
                 id: greeting
+
+        ### Traffic widget ###
+        TrafficWidget:
+            id: traffic_widget
+            size: traffic.size
+            size_hint: None, None
+            pos_hint: {'top': 0.11, 'right': 0.93}
+
+            TrafficIcon:
+                id: traffic_icon
+
+            TrafficTitle:
+                pos: 70, 5
+                Traffic:
+                    id: traffic_shadow
+                    pos: 1, -1
+                    color: 0, 0, 0, .5
+
+                Traffic:
+                    id: traffic
+
+            WeatherLabelLayout:
+                pos: 70, 70
+
+                WeatherLabel:
+                    id: traffic_label_shadow
+                    text: "TRAFFIC"
+                    pos: 1, -1
+                    color: 0, 0, 0, .5
+
+                WeatherLabel:
+                    id: traffic_label
+                    text: "TRAFFIC"

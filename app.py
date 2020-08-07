@@ -17,6 +17,7 @@ import random
 
 from service.metservice import METService
 from service.rssservice import RSSService
+from service.gdmservice import GDMService
 
 
 class CustomLayout(FloatLayout):
@@ -175,12 +176,43 @@ class Greeting(Label):
 
 		if 6 < hour < 12:
 			self.text = "Good morning, " + name
-		elif 12 < hour < 18:
+		elif 12 <= hour < 18:
 			self.text = "Good afternoon, " + name
-		elif 18 < hour < 21:
+		elif 18 <= hour < 21:
 			self.text = "Good evening, " + name
-		elif 21 < hour < 6:
+		elif 21 <= hour < 6:
 			self.text = "Good night, " + name
+
+
+class TrafficWidget(RelativeLayout):
+	gdm_service = None
+	data = None
+
+	def __init__(self, **kwargs):
+		super(TrafficWidget, self).__init__(**kwargs)
+		self.gdm_service = GDMService()
+
+		with self.canvas:
+			Color(1, 1, 1, .1, mode='rgba')
+			RoundedRectangle(pos=(-25, -25), size=(270, 140), radius=[(6, 6), (6, 6), (6, 6), (6, 6)])
+
+	def update(self, *args):
+		self.data = self.gdm_service.fetch_data()
+
+
+class TrafficTitle(RelativeLayout):
+	pass
+
+
+class Traffic(Label):
+	def update(self, *args):
+		self.text = self.parent.parent.data['duration_in_traffic']
+
+
+class TrafficIcon(AsyncImage):
+	def update(self, *args):
+		self.source = './icons/car.png'
+		self.reload()
 
 
 class MainApp(App):
@@ -194,7 +226,7 @@ class MainApp(App):
 		layout = CustomLayout()
 
 		# Wallpaper
-		Clock.schedule_once(layout.ids.wallpaper.random_image, 1)
+		# Clock.schedule_once(layout.ids.wallpaper.random_image, 1)
 
 		# Time widget
 		Clock.schedule_interval(layout.ids.time.update, 1)
@@ -275,6 +307,12 @@ class MainApp(App):
 		Clock.schedule_once(layout.ids.news_3_image.update_image, 1)
 		Clock.schedule_once(layout.ids.news_3.update_text, 1)
 		Clock.schedule_once(layout.ids.news_3_shadow.update_text, 1)
+
+		# Greeting widget
+		Clock.schedule_once(layout.ids.traffic_widget.update, 1)
+		Clock.schedule_once(layout.ids.traffic.update, 1)
+		Clock.schedule_once(layout.ids.traffic_shadow.update, 1)
+		Clock.schedule_once(layout.ids.traffic_icon.update, 1)
 
 		return layout
 

@@ -21,6 +21,8 @@ OpenSans font by Steve Matteson at [Google Fonts](https://fonts.google.com/), li
 
 # Dependencies
 * Kivy (https://kivy.org/#home)
+* Python Client for Google Maps Services (https://github.com/googlemaps/google-maps-services-python)
+    * requires Google Cloud API key
 * feedparser (https://pythonhosted.org/feedparser/)
 
 # Install Kivy on Ubuntu

@@ -13,3 +13,5 @@
 * instance class all shadow widgets with -1,-1 pos and color
 * logging of events
 * in-memory db instead of .json cache
+* localization
+* rename WeatherLabel to something more generic, it's reused
