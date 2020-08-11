@@ -6,6 +6,10 @@ import feedparser
 """Service for fetching news data from RSS feed."""
 
 
+class RssServiceException(Exception):
+	pass
+
+
 def format_time(published_parsed):
 	minutes = str(published_parsed.tm_min)
 	if len(minutes) == 1:
@@ -18,6 +22,9 @@ class RSSService:
 
 	def fetch_data(self):
 		news_feed = feedparser.parse(self.url)
+
+		if len(news_feed.entries) == 0:
+			raise RssServiceException(news_feed.bozo_exception)
 
 		data = []
 		for i in range(3):
