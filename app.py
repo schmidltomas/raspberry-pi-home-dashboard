@@ -55,8 +55,8 @@ class WeatherWidget(RelativeLayout):
 		self.met_service = METService()
 
 		with self.canvas:
-			Color(1, 1, 1, .1, mode='rgba')
-			RoundedRectangle(pos=(-25, -25), size=(985, 240), radius=[(6, 6), (6, 6), (6, 6), (6, 6)])
+			Color(0.15, 0.15, 0.15, .4, mode='rgba')
+			RoundedRectangle(pos=(-25, -25), size=(985, 240), radius=[(5, 5), (5, 5), (5, 5), (5, 5)])
 			Color(1, 1, 1, .2, mode='rgba')
 			Line(points=[220, 190, 220, 0])
 			Line(points=[470, 190, 470, 0])
@@ -118,8 +118,8 @@ class NewsWidget(RelativeLayout):
 		self.rss_service = RSSService()
 
 		with self.canvas:
-			Color(1, 1, 1, .1, mode='rgba')
-			RoundedRectangle(pos=(0, -200), size=(760, 300), radius=[(6, 6), (6, 6), (6, 6), (6, 6)])
+			Color(0.15, 0.15, 0.15, .4, mode='rgba')
+			RoundedRectangle(pos=(0, -200), size=(760, 300), radius=[(5, 5), (5, 5), (5, 5), (5, 5)])
 			Color(1, 1, 1, .2, mode='rgba')
 			Line(points=[15, 0, 745, 0])
 			Line(points=[15, -100, 745, -100])
@@ -193,8 +193,8 @@ class TrafficWidget(RelativeLayout):
 		self.gdm_service = GDMService()
 
 		with self.canvas:
-			Color(1, 1, 1, .1, mode='rgba')
-			RoundedRectangle(pos=(-25, -25), size=(270, 140), radius=[(6, 6), (6, 6), (6, 6), (6, 6)])
+			Color(0.15, 0.15, 0.15, .4, mode='rgba')
+			RoundedRectangle(pos=(-25, -25), size=(270, 140), radius=[(5, 5), (5, 5), (5, 5), (5, 5)])
 
 	def update(self, *args):
 		self.data = self.gdm_service.fetch_data()
