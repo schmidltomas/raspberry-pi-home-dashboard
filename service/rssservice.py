@@ -2,6 +2,7 @@
 # coding=utf-8
 
 import feedparser
+import config
 
 """Service for fetching news data from RSS feed."""
 
@@ -18,7 +19,7 @@ def format_time(published_parsed):
 
 
 class RSSService:
-	url = "https://ct24.ceskatelevize.cz/rss/hlavni-zpravy"
+	url = config.rss_service['url']
 
 	def fetch_data(self):
 		news_feed = feedparser.parse(self.url)

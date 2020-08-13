@@ -1,6 +1,5 @@
 # TODO
 * time widget - show seconds?
-* load properties in services from properties file
 * update each widget accordingly:
     * temperature each hour/half hour
     * news widget each hour/half hour

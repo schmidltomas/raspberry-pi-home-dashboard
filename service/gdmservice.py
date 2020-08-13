@@ -3,17 +3,18 @@
 
 import googlemaps
 from datetime import datetime
+import config
 
 """Service for fetching traffic time data from Google Distance Matrix API."""
 
 
 class GDMService:
-	origin = "<HOME_ADDRESS>"
-	destination = "<WORK_ADDRESS>"
-	mode = "driving"
-	units = "metric"
-	language = "en"
-	api_key = "<GOOGLE_API_KEY>"
+	origin = config.gdm_service['origin']
+	destination = config.gdm_service['destination']
+	mode = config.gdm_service['mode']
+	units = config.gdm_service['units']
+	language = config.gdm_service['language']
+	api_key = config.gdm_service['api_key']
 	client = googlemaps.Client(key=api_key)
 
 	def fetch_data(self):

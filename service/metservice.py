@@ -5,26 +5,25 @@ import requests
 import json
 import dateutil.parser
 from datetime import date
+import config
 
 """Service for fetching weather data from MET Weather API (https://api.met.no/doc/)."""
 
 
 def get_cache_content():
-	with open("./cache.json", "r") as cache_file:
-		try:
+	try:
+		with open("./cache.json", "r") as cache_file:
 			cache = cache_file.read()
-			json_object = json.loads(cache)
-		except ValueError:
-			# if the cache is empty, return empty cache object
-			emtpy_today = [{
-				"timestamp": '',
-				"weekday": 'TODAY',
-				"temperature": '',
-				"description": 'no_image'
-			}] * 3
-			return json.loads('{"today": ' + json.dumps(emtpy_today) + ', "last_modified": null}')
-
-		return json_object
+			return json.loads(cache)
+	except ValueError and FileNotFoundError:
+		# if the cache is empty, return empty cache object
+		emtpy_today = [{
+			"timestamp": '',
+			"weekday": 'TODAY',
+			"temperature": '',
+			"description": 'no_image'
+		}] * 3
+		return json.loads('{"today": ' + json.dumps(emtpy_today) + ', "last_modified": null}')
 
 
 def save_to_cache(response):
@@ -85,11 +84,11 @@ def format_weekday(dt):
 
 
 class METService:
-	url = "https://api.met.no/weatherapi/locationforecast/2.0/compact"
-	user_agent = "RaspberryPiHomeDashboard/0.1 https://github.com/schmidltomas"
-	lat = "49.195"
-	lon = "16.608"
-	altitude = "220"
+	url = config.met_service['url']
+	user_agent = config.met_service['user_agent']
+	lat = config.met_service['lat']
+	lon = config.met_service['lon']
+	altitude = config.met_service['altitude']
 
 	def fetch_data(self):
 		cache = get_cache_content()
