@@ -3,6 +3,8 @@
 
 import feedparser
 import config
+import logger
+import json
 
 """Service for fetching news data from RSS feed."""
 
@@ -22,9 +24,11 @@ class RSSService:
 	url = config.rss_service['url']
 
 	def fetch_data(self):
+		logger.info("Fetching RSS news feed from=" + self.url)
 		news_feed = feedparser.parse(self.url)
 
 		if len(news_feed.entries) == 0:
+			logger.error("Failed to fetch RSS new feed=" + news_feed.bozo_exception)
 			raise RssServiceException(news_feed.bozo_exception)
 
 		data = []
@@ -36,4 +40,5 @@ class RSSService:
 				"published": format_time(entry.published_parsed)
 			})
 
+		logger.info("Fetched RSSService data=" + json.dumps(data, ensure_ascii=False))
 		return data

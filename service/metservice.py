@@ -6,6 +6,7 @@ import json
 import dateutil.parser
 from datetime import date
 import config
+import logger
 
 """Service for fetching weather data from MET Weather API (https://api.met.no/doc/)."""
 
@@ -91,6 +92,7 @@ class METService:
 	altitude = config.met_service['altitude']
 
 	def fetch_data(self):
+		logger.info("Fetching weather data from=" + self.url)
 		cache = get_cache_content()
 
 		params = {'lat': self.lat, 'lon': self.lon, 'altitude': self.altitude}
@@ -98,10 +100,10 @@ class METService:
 		response = requests.get(url=self.url, params=params, headers=headers)
 
 		if response.status_code == 304:
-			print(str(response.status_code) + " - Loading from cache...")
+			logger.info("Received response=" + str(response.status_code) + ", loading from cache")
 			time_series = cache['content']['properties']['timeseries']
 		else:
-			print(str(response.status_code) + " - Fetching new request...")
+			logger.info("Received response=" + str(response.status_code) + ", fetching new request")
 			save_to_cache(response)
 			time_series = response.json()['properties']['timeseries']
 
@@ -112,12 +114,15 @@ class METService:
 			# if today's forecast doesn't contain earlier hours anymore, load them from cache
 			if dt.date() == date.today():
 				if len(data) == 0:
+					logger.info("Loading 6AM data from cache=" + json.dumps(cache['today'][0], ensure_ascii=False))
 					data.append(cache['today'][0])
 					continue
 				if len(data) == 1:
+					logger.info("Loading 12PM data from cache=" + json.dumps(cache['today'][1], ensure_ascii=False))
 					data.append(cache['today'][1])
 					continue
 				if len(data) == 2:
+					logger.info("Loading 18PM data from cache=" + json.dumps(cache['today'][2], ensure_ascii=False))
 					data.append(cache['today'][2])
 					continue
 			else:
@@ -133,5 +138,6 @@ class METService:
 			if len(data) == 12:
 				break
 
+		logger.info("Fetched METService data=" + json.dumps(data, ensure_ascii=False))
 		return data
 

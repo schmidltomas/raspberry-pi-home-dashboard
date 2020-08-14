@@ -20,6 +20,7 @@ import locale
 from service.metservice import METService
 from service.rssservice import RSSService
 from service.gdmservice import GDMService
+import logger
 
 
 class CustomLayout(FloatLayout):
@@ -41,6 +42,7 @@ class Wallpaper(AsyncImage):
 		wallpapers = glob.glob("./wallpapers/" + self.resolution + "/*.jpg")
 		self.source = wallpapers[random.randint(0, len(wallpapers) - 1)]
 		self.reload()
+		logger.info("Set random wallpaper=" + self.source)
 
 
 class TimeWidget(RelativeLayout):
@@ -49,7 +51,6 @@ class TimeWidget(RelativeLayout):
 
 class Time(Label):
 	def update(self, *args):
-		# self.text = time.strftime("%H:%M:%S")
 		self.text = time.strftime("%H:%M")
 
 
@@ -67,6 +68,7 @@ class WeatherWidget(RelativeLayout):
 	def __init__(self, **kwargs):
 		super(WeatherWidget, self).__init__(**kwargs)
 		self.met_service = METService()
+		logger.info("Initialized WeatherWidget")
 
 		with self.canvas:
 			Color(0.15, 0.15, 0.15, .4, mode='rgba')
@@ -86,6 +88,8 @@ class WeatherWidget(RelativeLayout):
 				self.children[i].children[j].description = data[data_index]['description']
 				self.children[i].children[j].weekday = data[data_index]['weekday']
 				data_index -= 1
+
+		logger.info("Updated WeatherWidget data")
 
 
 class WeatherDay(RelativeLayout):
@@ -133,6 +137,7 @@ class NewsWidget(RelativeLayout):
 	def __init__(self, **kwargs):
 		super(NewsWidget, self).__init__(**kwargs)
 		self.rss_service = RSSService()
+		logger.info("Initialized NewsWidget")
 
 		with self.canvas:
 			Color(0.15, 0.15, 0.15, .4, mode='rgba')
@@ -150,6 +155,8 @@ class NewsWidget(RelativeLayout):
 			self.children[i].image_url = data[data_index]['image_url']
 			self.children[i].published = data[data_index]['published']
 			data_index += 1
+
+		logger.info("Updated NewsWidget data")
 
 
 class NewsLine(RelativeLayout):
@@ -194,6 +201,7 @@ class Greeting(Label):
 		super(Greeting, self).__init__(**kwargs)
 		self.first_name = config.general['first_name']
 		self.locale_short = locale.getlocale()[0]
+		logger.info("Initialized GreetingWidget")
 
 	def update(self, *args):
 		hour = int(time.strftime("%H"))
@@ -207,6 +215,8 @@ class Greeting(Label):
 		elif 21 <= hour < 6:
 			self.text = config.texts[self.locale_short]['night'] + self.first_name
 
+		logger.info("Updated GreetingWidget text=" + self.text)
+
 
 class TrafficWidget(RelativeLayout):
 	gdm_service = None
@@ -215,6 +225,7 @@ class TrafficWidget(RelativeLayout):
 	def __init__(self, **kwargs):
 		super(TrafficWidget, self).__init__(**kwargs)
 		self.gdm_service = GDMService()
+		logger.info("Initialized TrafficWidget")
 
 		with self.canvas:
 			Color(0.15, 0.15, 0.15, .4, mode='rgba')
@@ -222,6 +233,7 @@ class TrafficWidget(RelativeLayout):
 
 	def update(self, *args):
 		self.data = self.gdm_service.fetch_data()
+		logger.info("Updated TrafficWidget data")
 
 
 class TrafficTitleLayout(RelativeLayout):
@@ -250,6 +262,7 @@ class TrafficHeader(Label):
 
 
 class MainApp(App):
+	logger.info("Started MainApp")
 	Config.set('graphics', 'fullscreen', config.general['fullscreen'])
 	Config.set('graphics', 'borderless', config.general['borderless'])
 	Config.set('graphics', 'width', config.general['screen_width'])
@@ -348,6 +361,7 @@ class MainApp(App):
 		Clock.schedule_once(layout.ids.traffic_shadow.update, 1)
 		Clock.schedule_once(layout.ids.traffic_icon.update, 1)
 
+		logger.info("MainApp built")
 		return layout
 
 
