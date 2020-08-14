@@ -9,7 +9,7 @@ Work in progress...
 * Indoor temperature, air pressure and humidity (use sensor)
 * Weather forecast (use some web service) ✓
 * RSS news feed ✓
-* Current time to work (use some routing API)
+* Current time to work (use some routing API) ✓
 * Automatic display switch off (use motion sensor)
 
 # Attributions
@@ -26,16 +26,12 @@ OpenSans font by Steve Matteson at [Google Fonts](https://fonts.google.com/), li
 * feedparser (https://pypi.org/project/feedparser/)
 * python-dateutil (https://pypi.org/project/python-dateutil/)
 
-# Install Kivy on Raspbian
+# Install Kivy on Ubuntu
 1. sudo apt-get install libsdl2-image-dev
 2. sudo add-apt-repository ppa:kivy-team/kivy
 3. sudo apt-get install python3-kivy
 
-# Troubleshooting
-If you get `RssServiceException` with `SSL: DH_KEY_TOO_SMALL` message on Raspbian, comment this line in `/etc/ssl/openssl.cnf`:
-```CipherString = DEFAULT@SECLEVEL=2```
-
-# Install Kivy on Ubuntu
+# Install Kivy on Raspbian
 1. sudo apt update
 2. sudo apt install libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev \
    pkg-config libgl1-mesa-dev libgles2-mesa-dev \
@@ -48,4 +44,8 @@ If you get `RssServiceException` with `SSL: DH_KEY_TOO_SMALL` message on Raspbia
 5. python3 -m pip install --upgrade --user Cython==0.29.10 pillow
 6. python3 -m pip install --user kivy
 
+# Troubleshooting
+* If you get `RssServiceException` with `SSL: DH_KEY_TOO_SMALL` message on Raspbian, comment this line in `/etc/ssl/openssl.cnf`:
+```CipherString = DEFAULT@SECLEVEL=2```
+* To find out supported locales on Ubuntu/Raspbian, use `locale -a`
 

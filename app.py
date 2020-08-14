@@ -14,6 +14,8 @@ from kivy.clock import Clock
 import time
 import glob
 import random
+import config
+import locale
 
 from service.metservice import METService
 from service.rssservice import RSSService
@@ -25,8 +27,18 @@ class CustomLayout(FloatLayout):
 
 
 class Wallpaper(AsyncImage):
+	resolution = None
+
+	def __init__(self, **kwargs):
+		super(Wallpaper, self).__init__(**kwargs)
+		self.resolution = config.general['screen_width'] + 'x' + config.general['screen_height']
+
+		# hack for official Raspberry Pi display
+		if self.resolution == "800x480":
+			self.resolution = "1800x1080"
+
 	def random_image(self, *args):
-		wallpapers = glob.glob("./wallpapers/*.jpg")
+		wallpapers = glob.glob("./wallpapers/" + self.resolution + "/*.jpg")
 		self.source = wallpapers[random.randint(0, len(wallpapers) - 1)]
 		self.reload()
 
@@ -43,8 +55,10 @@ class Time(Label):
 
 class Date(Label):
 	def update(self, *args):
-		# self.text = time.strftime("%A %d %B %Y")
-		self.text = time.strftime("%a %d %B")
+		if locale.getlocale()[0] == "cs_CZ":
+			self.text = time.strftime("%a %d. %B")
+		else:
+			self.text = time.strftime("%a %d %B")
 
 
 class WeatherWidget(RelativeLayout):
@@ -82,12 +96,15 @@ class Weather(RelativeLayout):
 	pass
 
 
-class WeatherLabel(Label):
+class WeatherHeader(Label):
 	def update(self, *args):
-		self.text = self.parent.parent.weekday
+		if self.parent.parent.weekday == "TODAY":
+			self.text = config.texts[locale.getlocale()[0]]['today']
+		else:
+			self.text = self.parent.parent.weekday
 
 
-class WeatherLabelLayout(RelativeLayout):
+class WeatherHeaderLayout(RelativeLayout):
 	pass
 
 
@@ -170,18 +187,25 @@ class GreetingWidget(RelativeLayout):
 
 
 class Greeting(Label):
+	first_name = None
+	locale_short = None
+
+	def __init__(self, **kwargs):
+		super(Greeting, self).__init__(**kwargs)
+		self.first_name = config.general['first_name']
+		self.locale_short = locale.getlocale()[0]
+
 	def update(self, *args):
 		hour = int(time.strftime("%H"))
-		name = "Tomáš"
 
 		if 6 < hour < 12:
-			self.text = "Good morning, " + name
+			self.text = config.texts[self.locale_short]['morning'] + self.first_name
 		elif 12 <= hour < 18:
-			self.text = "Good afternoon, " + name
+			self.text = config.texts[self.locale_short]['afternoon'] + self.first_name
 		elif 18 <= hour < 21:
-			self.text = "Good evening, " + name
+			self.text = config.texts[self.locale_short]['evening'] + self.first_name
 		elif 21 <= hour < 6:
-			self.text = "Good night, " + name
+			self.text = config.texts[self.locale_short]['night'] + self.first_name
 
 
 class TrafficWidget(RelativeLayout):
@@ -200,7 +224,7 @@ class TrafficWidget(RelativeLayout):
 		self.data = self.gdm_service.fetch_data()
 
 
-class TrafficTitle(RelativeLayout):
+class TrafficTitleLayout(RelativeLayout):
 	pass
 
 
@@ -215,18 +239,28 @@ class TrafficIcon(AsyncImage):
 		self.reload()
 
 
+class TrafficHeaderLayout(RelativeLayout):
+	pass
+
+
+class TrafficHeader(Label):
+	def __init__(self, **kwargs):
+		super(TrafficHeader, self).__init__(**kwargs)
+		self.text = config.texts[locale.getlocale()[0]]['time_to_work']
+
+
 class MainApp(App):
-	# Config.set('graphics', 'fullscreen', 1)
-	Config.set('graphics', 'width', '1920')
-	Config.set('graphics', 'height', '1080')
-	# Config.set('graphics', 'width', '840')
-	# Config.set('graphics', 'height', '400')
+	Config.set('graphics', 'fullscreen', config.general['fullscreen'])
+	Config.set('graphics', 'borderless', config.general['borderless'])
+	Config.set('graphics', 'width', config.general['screen_width'])
+	Config.set('graphics', 'height', config.general['screen_height'])
+	locale.setlocale(locale.LC_ALL, config.general['locale'])
 
 	def build(self):
 		layout = CustomLayout()
 
 		# Wallpaper
-		# Clock.schedule_once(layout.ids.wallpaper.random_image, 1)
+		Clock.schedule_once(layout.ids.wallpaper.random_image, 1)
 
 		# Time widget
 		Clock.schedule_interval(layout.ids.time.update, 1)

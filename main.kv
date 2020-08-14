@@ -14,11 +14,11 @@
 <Date>:
     font_size: 70
 
-<WeatherLabel>:
+<WeatherHeader>:
     font_name: './fonts/OpenSans-SemiBold.ttf'
     font_size: 18
 
-<WeatherLabelLayout>:
+<WeatherHeaderLayout>:
     pos: 50, 60
 
 <Temperature>:
@@ -49,8 +49,12 @@
     height: self.texture_size[1]
 
 <Greeting>:
-    font_size: 100
     font_name: './fonts/OpenSans-Light.ttf'
+    font_size: 100
+
+<TrafficHeader>:
+    font_name: './fonts/OpenSans-SemiBold.ttf'
+    font_size: 18
 
 <TrafficIcon>:
     size: 50, 50
@@ -140,13 +144,13 @@
                 Weather:
                     pos: 0, 120
 
-                    WeatherLabelLayout:
-                        WeatherLabel:
+                    WeatherHeaderLayout:
+                        WeatherHeader:
                             id: weather_0_2_label_shadow
                             pos: 1, -1
                             color: 0, 0, 0, .5
 
-                        WeatherLabel:
+                        WeatherHeader:
                             id: weather_0_2_label
 
                     TemperatureLabelLayout:
@@ -208,13 +212,13 @@
                 Weather:
                     pos: 0, 120
 
-                    WeatherLabelLayout:
-                        WeatherLabel:
+                    WeatherHeaderLayout:
+                        WeatherHeader:
                             id: weather_1_2_label_shadow
                             pos: 1, -1
                             color: 0, 0, 0, .5
 
-                        WeatherLabel:
+                        WeatherHeader:
                             id: weather_1_2_label
 
                     TemperatureLabelLayout:
@@ -276,13 +280,13 @@
                 Weather:
                     pos: 0, 120
 
-                    WeatherLabelLayout:
-                        WeatherLabel:
+                    WeatherHeaderLayout:
+                        WeatherHeader:
                             id: weather_2_2_label_shadow
                             pos: 1, -1
                             color: 0, 0, 0, .5
 
-                        WeatherLabel:
+                        WeatherHeader:
                             id: weather_2_2_label
 
                     TemperatureLabelLayout:
@@ -344,13 +348,13 @@
                 Weather:
                     pos: 0, 120
 
-                    WeatherLabelLayout:
-                        WeatherLabel:
+                    WeatherHeaderLayout:
+                        WeatherHeader:
                             id: weather_3_2_label_shadow
                             pos: 1, -1
                             color: 0, 0, 0, .5
 
-                        WeatherLabel:
+                        WeatherHeader:
                             id: weather_3_2_label
 
                     TemperatureLabelLayout:
@@ -444,7 +448,7 @@
             TrafficIcon:
                 id: traffic_icon
 
-            TrafficTitle:
+            TrafficTitleLayout:
                 pos: 70, 5
                 Traffic:
                     id: traffic_shadow
@@ -454,15 +458,13 @@
                 Traffic:
                     id: traffic
 
-            WeatherLabelLayout:
-                pos: 70, 70
+            TrafficHeaderLayout:
+                pos: 50, 70
 
-                WeatherLabel:
-                    id: traffic_label_shadow
-                    text: "TRAFFIC"
+                TrafficHeader:
+                    id: traffic_header_shadow
                     pos: 1, -1
                     color: 0, 0, 0, .5
 
-                WeatherLabel:
-                    id: traffic_label
-                    text: "TRAFFIC"
+                TrafficHeader:
+                    id: traffic_header

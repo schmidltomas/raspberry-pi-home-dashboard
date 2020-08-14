@@ -19,3 +19,32 @@ gdm_service = dict(
 	language='en',
 	api_key='<GOOGLE_API_KEY>'
 )
+general = dict(
+	screen_width='1920',
+	screen_height='1080',
+	# screen_width='840',
+	# screen_height='400',
+	fullscreen=0,
+	borderless=0,
+	# locale='en_GB.utf8',
+	locale='cs_CZ.utf8',
+	first_name='Tomáši'
+)
+texts = dict(
+	en_GB=dict(
+		today='TODAY',
+		time_to_work='TIME TO WORK',
+		morning='Good morning, ',
+		afternoon='Good afternoon, ',
+		evening='Good evening, ',
+		night='Good night, ',
+	),
+	cs_CZ=dict(
+		today='DNES',
+		time_to_work='ČAS DO PRÁCE',
+		morning='Dobré ráno, ',
+		afternoon='Dobré odpoledne, ',
+		evening='Dobrý večer, ',
+		night='Dobrou noc, ',
+	)
+)
