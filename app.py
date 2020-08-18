@@ -15,6 +15,7 @@ import time
 import glob
 import random
 import config
+import constants
 import locale
 
 from service.metservice import METService
@@ -35,7 +36,7 @@ class Wallpaper(AsyncImage):
 		self.resolution = config.general['screen_width'] + 'x' + config.general['screen_height']
 
 		# hack for official Raspberry Pi display
-		if self.resolution == "800x480":
+		if self.resolution == "840x400":
 			self.resolution = "1800x1080"
 
 	def random_image(self, *args):
@@ -77,6 +78,21 @@ class WeatherWidget(RelativeLayout):
 			Line(points=[220, 190, 220, 0])
 			Line(points=[470, 190, 470, 0])
 			Line(points=[720, 190, 720, 0])
+
+	def on_kv_post(self, base_widget):
+		logger.info("Initial WeatherWidget update")
+		self.update()
+
+		for i in range(0, 4):
+			for j in range(0, 3):
+				# TemperatureIcon
+				self.children[i].children[j].children[0].children[0].update_icon()
+				# Temperature
+				self.children[i].children[j].children[1].children[0].update()
+				self.children[i].children[j].children[1].children[1].update()
+				if j == 0:
+					self.children[i].children[j].children[2].children[0].update()
+					self.children[i].children[j].children[2].children[1].update()
 
 	def update(self, *args):
 		data = self.met_service.fetch_data()
@@ -146,6 +162,17 @@ class NewsWidget(RelativeLayout):
 			Line(points=[15, 0, 745, 0])
 			Line(points=[15, -100, 745, -100])
 
+	def on_kv_post(self, base_widget):
+		logger.info("Initial NewsWidget update")
+		self.update()
+
+		for i in range(0, 3):
+			# News
+			self.children[i].children[0].children[0].update_text()
+			self.children[i].children[0].children[1].update_text()
+			# NewsImage
+			self.children[i].children[1].update_image()
+
 	def update(self, *args):
 		data = self.rss_service.fetch_data()
 
@@ -203,6 +230,10 @@ class Greeting(Label):
 		self.locale_short = locale.getlocale()[0]
 		logger.info("Initialized GreetingWidget")
 
+	def on_kv_post(self, base_widget):
+		logger.info("Initial Greeting update")
+		self.update()
+
 	def update(self, *args):
 		hour = int(time.strftime("%H"))
 
@@ -230,6 +261,13 @@ class TrafficWidget(RelativeLayout):
 		with self.canvas:
 			Color(0.15, 0.15, 0.15, .4, mode='rgba')
 			RoundedRectangle(pos=(-25, -25), size=(270, 140), radius=[(5, 5), (5, 5), (5, 5), (5, 5)])
+
+	def on_kv_post(self, base_widget):
+		logger.info("Initial TrafficWidget update")
+		self.update()
+		self.children[1].children[0].update()
+		self.children[1].children[1].update()
+		self.children[2].update()
 
 	def update(self, *args):
 		self.data = self.gdm_service.fetch_data()
@@ -267,99 +305,100 @@ class MainApp(App):
 	Config.set('graphics', 'borderless', config.general['borderless'])
 	Config.set('graphics', 'width', config.general['screen_width'])
 	Config.set('graphics', 'height', config.general['screen_height'])
+	Config.set("graphics", "show_cursor", config.general['show_cursor'])
 	locale.setlocale(locale.LC_ALL, config.general['locale'])
 
 	def build(self):
 		layout = CustomLayout()
 
 		# Wallpaper
-		Clock.schedule_once(layout.ids.wallpaper.random_image, 1)
+		Clock.schedule_interval(layout.ids.wallpaper.random_image, constants.daily)
 
 		# Time widget
-		Clock.schedule_interval(layout.ids.time.update, 1)
-		Clock.schedule_interval(layout.ids.time_shadow.update, 1)
-		Clock.schedule_interval(layout.ids.date.update, 1)
-		Clock.schedule_interval(layout.ids.date_shadow.update, 1)
+		Clock.schedule_interval(layout.ids.time.update, constants.every_second)
+		Clock.schedule_interval(layout.ids.time_shadow.update, constants.every_second)
+		Clock.schedule_interval(layout.ids.date.update, constants.every_second)
+		Clock.schedule_interval(layout.ids.date_shadow.update, constants.every_second)
 
 		# Weather widget
-		Clock.schedule_once(layout.ids.weather_widget.update, 1)
+		Clock.schedule_interval(layout.ids.weather_widget.update, constants.every_15_min)
 
 		# Weather widget - today
-		Clock.schedule_once(layout.ids.temperature_0_0.update, 1)
-		Clock.schedule_once(layout.ids.temperature_0_0_shadow.update, 1)
-		Clock.schedule_once(layout.ids.temperature_0_0_icon.update_icon, 1)
-		Clock.schedule_once(layout.ids.temperature_0_1.update, 1)
-		Clock.schedule_once(layout.ids.temperature_0_1_shadow.update, 1)
-		Clock.schedule_once(layout.ids.temperature_0_1_icon.update_icon, 1)
-		Clock.schedule_once(layout.ids.weather_0_2_label.update, 1)
-		Clock.schedule_once(layout.ids.weather_0_2_label_shadow.update, 1)
-		Clock.schedule_once(layout.ids.temperature_0_2.update, 1)
-		Clock.schedule_once(layout.ids.temperature_0_2_shadow.update, 1)
-		Clock.schedule_once(layout.ids.temperature_0_2_icon.update_icon, 1)
+		Clock.schedule_interval(layout.ids.temperature_0_0.update, constants.every_15_min)
+		Clock.schedule_interval(layout.ids.temperature_0_0_shadow.update, constants.every_15_min)
+		Clock.schedule_interval(layout.ids.temperature_0_0_icon.update_icon, constants.every_15_min)
+		Clock.schedule_interval(layout.ids.temperature_0_1.update, constants.every_15_min)
+		Clock.schedule_interval(layout.ids.temperature_0_1_shadow.update, constants.every_15_min)
+		Clock.schedule_interval(layout.ids.temperature_0_1_icon.update_icon, constants.every_15_min)
+		Clock.schedule_interval(layout.ids.weather_0_2_label.update, constants.every_15_min)
+		Clock.schedule_interval(layout.ids.weather_0_2_label_shadow.update, constants.every_15_min)
+		Clock.schedule_interval(layout.ids.temperature_0_2.update, constants.every_15_min)
+		Clock.schedule_interval(layout.ids.temperature_0_2_shadow.update, constants.every_15_min)
+		Clock.schedule_interval(layout.ids.temperature_0_2_icon.update_icon, constants.every_15_min)
 
 		# Weather widget - tomorrow
-		Clock.schedule_once(layout.ids.temperature_1_0.update, 1)
-		Clock.schedule_once(layout.ids.temperature_1_0_shadow.update, 1)
-		Clock.schedule_once(layout.ids.temperature_1_0_icon.update_icon, 1)
-		Clock.schedule_once(layout.ids.temperature_1_1.update, 1)
-		Clock.schedule_once(layout.ids.temperature_1_1_shadow.update, 1)
-		Clock.schedule_once(layout.ids.temperature_1_1_icon.update_icon, 1)
-		Clock.schedule_once(layout.ids.weather_1_2_label.update, 1)
-		Clock.schedule_once(layout.ids.weather_1_2_label_shadow.update, 1)
-		Clock.schedule_once(layout.ids.temperature_1_2.update, 1)
-		Clock.schedule_once(layout.ids.temperature_1_2_shadow.update, 1)
-		Clock.schedule_once(layout.ids.temperature_1_2_icon.update_icon, 1)
+		Clock.schedule_interval(layout.ids.temperature_1_0.update, constants.every_15_min)
+		Clock.schedule_interval(layout.ids.temperature_1_0_shadow.update, constants.every_15_min)
+		Clock.schedule_interval(layout.ids.temperature_1_0_icon.update_icon, constants.every_15_min)
+		Clock.schedule_interval(layout.ids.temperature_1_1.update, constants.every_15_min)
+		Clock.schedule_interval(layout.ids.temperature_1_1_shadow.update, constants.every_15_min)
+		Clock.schedule_interval(layout.ids.temperature_1_1_icon.update_icon, constants.every_15_min)
+		Clock.schedule_interval(layout.ids.weather_1_2_label.update, constants.every_15_min)
+		Clock.schedule_interval(layout.ids.weather_1_2_label_shadow.update, constants.every_15_min)
+		Clock.schedule_interval(layout.ids.temperature_1_2.update, constants.every_15_min)
+		Clock.schedule_interval(layout.ids.temperature_1_2_shadow.update, constants.every_15_min)
+		Clock.schedule_interval(layout.ids.temperature_1_2_icon.update_icon, constants.every_15_min)
 
 		# Weather widget - tomorrow + 1
-		Clock.schedule_once(layout.ids.temperature_2_0.update, 1)
-		Clock.schedule_once(layout.ids.temperature_2_0_shadow.update, 1)
-		Clock.schedule_once(layout.ids.temperature_2_0_icon.update_icon, 1)
-		Clock.schedule_once(layout.ids.temperature_2_1.update, 1)
-		Clock.schedule_once(layout.ids.temperature_2_1_shadow.update, 1)
-		Clock.schedule_once(layout.ids.temperature_2_1_icon.update_icon, 1)
-		Clock.schedule_once(layout.ids.weather_2_2_label.update, 1)
-		Clock.schedule_once(layout.ids.weather_2_2_label_shadow.update, 1)
-		Clock.schedule_once(layout.ids.temperature_2_2.update, 1)
-		Clock.schedule_once(layout.ids.temperature_2_2_shadow.update, 1)
-		Clock.schedule_once(layout.ids.temperature_2_2_icon.update_icon, 1)
+		Clock.schedule_interval(layout.ids.temperature_2_0.update, constants.every_15_min)
+		Clock.schedule_interval(layout.ids.temperature_2_0_shadow.update, constants.every_15_min)
+		Clock.schedule_interval(layout.ids.temperature_2_0_icon.update_icon, constants.every_15_min)
+		Clock.schedule_interval(layout.ids.temperature_2_1.update, constants.every_15_min)
+		Clock.schedule_interval(layout.ids.temperature_2_1_shadow.update, constants.every_15_min)
+		Clock.schedule_interval(layout.ids.temperature_2_1_icon.update_icon, constants.every_15_min)
+		Clock.schedule_interval(layout.ids.weather_2_2_label.update, constants.every_15_min)
+		Clock.schedule_interval(layout.ids.weather_2_2_label_shadow.update, constants.every_15_min)
+		Clock.schedule_interval(layout.ids.temperature_2_2.update, constants.every_15_min)
+		Clock.schedule_interval(layout.ids.temperature_2_2_shadow.update, constants.every_15_min)
+		Clock.schedule_interval(layout.ids.temperature_2_2_icon.update_icon, constants.every_15_min)
 
 		# Weather widget - tomorrow + 2
-		Clock.schedule_once(layout.ids.temperature_3_0.update, 1)
-		Clock.schedule_once(layout.ids.temperature_3_0_shadow.update, 1)
-		Clock.schedule_once(layout.ids.temperature_3_0_icon.update_icon, 1)
-		Clock.schedule_once(layout.ids.temperature_3_1.update, 1)
-		Clock.schedule_once(layout.ids.temperature_3_1_shadow.update, 1)
-		Clock.schedule_once(layout.ids.temperature_3_1_icon.update_icon, 1)
-		Clock.schedule_once(layout.ids.weather_3_2_label.update, 1)
-		Clock.schedule_once(layout.ids.weather_3_2_label_shadow.update, 1)
-		Clock.schedule_once(layout.ids.temperature_3_2.update, 1)
-		Clock.schedule_once(layout.ids.temperature_3_2_shadow.update, 1)
-		Clock.schedule_once(layout.ids.temperature_3_2_icon.update_icon, 1)
+		Clock.schedule_interval(layout.ids.temperature_3_0.update, constants.every_15_min)
+		Clock.schedule_interval(layout.ids.temperature_3_0_shadow.update, constants.every_15_min)
+		Clock.schedule_interval(layout.ids.temperature_3_0_icon.update_icon, constants.every_15_min)
+		Clock.schedule_interval(layout.ids.temperature_3_1.update, constants.every_15_min)
+		Clock.schedule_interval(layout.ids.temperature_3_1_shadow.update, constants.every_15_min)
+		Clock.schedule_interval(layout.ids.temperature_3_1_icon.update_icon, constants.every_15_min)
+		Clock.schedule_interval(layout.ids.weather_3_2_label.update, constants.every_15_min)
+		Clock.schedule_interval(layout.ids.weather_3_2_label_shadow.update, constants.every_15_min)
+		Clock.schedule_interval(layout.ids.temperature_3_2.update, constants.every_15_min)
+		Clock.schedule_interval(layout.ids.temperature_3_2_shadow.update, constants.every_15_min)
+		Clock.schedule_interval(layout.ids.temperature_3_2_icon.update_icon, constants.every_15_min)
 
 		# Greeting widget
-		Clock.schedule_once(layout.ids.greeting.update, 1)
-		Clock.schedule_once(layout.ids.greeting_shadow.update, 1)
+		Clock.schedule_interval(layout.ids.greeting.update, constants.hourly)
+		Clock.schedule_interval(layout.ids.greeting_shadow.update, constants.hourly)
 
 		# News widget
-		Clock.schedule_once(layout.ids.news_widget.update, 1)
+		Clock.schedule_once(layout.ids.news_widget.update)
 
-		Clock.schedule_once(layout.ids.news_1_image.update_image, 1)
-		Clock.schedule_once(layout.ids.news_1.update_text, 1)
-		Clock.schedule_once(layout.ids.news_1_shadow.update_text, 1)
+		Clock.schedule_interval(layout.ids.news_1_image.update_image, constants.every_30_min)
+		Clock.schedule_interval(layout.ids.news_1.update_text, constants.every_30_min)
+		Clock.schedule_interval(layout.ids.news_1_shadow.update_text, constants.every_30_min)
 
-		Clock.schedule_once(layout.ids.news_2_image.update_image, 1)
-		Clock.schedule_once(layout.ids.news_2.update_text, 1)
-		Clock.schedule_once(layout.ids.news_2_shadow.update_text, 1)
+		Clock.schedule_interval(layout.ids.news_2_image.update_image, constants.every_30_min)
+		Clock.schedule_interval(layout.ids.news_2.update_text, constants.every_30_min)
+		Clock.schedule_interval(layout.ids.news_2_shadow.update_text, constants.every_30_min)
 
-		Clock.schedule_once(layout.ids.news_3_image.update_image, 1)
-		Clock.schedule_once(layout.ids.news_3.update_text, 1)
-		Clock.schedule_once(layout.ids.news_3_shadow.update_text, 1)
+		Clock.schedule_interval(layout.ids.news_3_image.update_image, constants.every_30_min)
+		Clock.schedule_interval(layout.ids.news_3.update_text, constants.every_30_min)
+		Clock.schedule_interval(layout.ids.news_3_shadow.update_text, constants.every_30_min)
 
-		# Greeting widget
-		Clock.schedule_once(layout.ids.traffic_widget.update, 1)
-		Clock.schedule_once(layout.ids.traffic.update, 1)
-		Clock.schedule_once(layout.ids.traffic_shadow.update, 1)
-		Clock.schedule_once(layout.ids.traffic_icon.update, 1)
+		# Traffic widget
+		Clock.schedule_interval(layout.ids.traffic_widget.update, constants.hourly)
+		Clock.schedule_interval(layout.ids.traffic.update, constants.hourly)
+		Clock.schedule_interval(layout.ids.traffic_shadow.update, constants.hourly)
+		Clock.schedule_interval(layout.ids.traffic_icon.update, constants.hourly)
 
 		logger.info("MainApp built")
 		return layout

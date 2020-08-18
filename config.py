@@ -26,6 +26,7 @@ general = dict(
 	# screen_height='400',
 	fullscreen=0,
 	borderless=0,
+	show_cursor=0,
 	# locale='en_GB.utf8',
 	locale='cs_CZ.utf8',
 	first_name='Tomáši'

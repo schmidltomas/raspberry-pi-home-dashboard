@@ -5,7 +5,7 @@ from datetime import datetime
 
 logger = logging.getLogger('app_logger')
 logger.setLevel(logging.DEBUG)
-timestamp = str(datetime.timestamp(datetime.now())).split('.')[0]
+timestamp = str(datetime.now().strftime('%Y-%m-%d_%H-%M-%S')).split('.')[0]
 file_handler = logging.FileHandler('app_' + timestamp + '.log')
 file_handler.setLevel(logging.DEBUG)
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
