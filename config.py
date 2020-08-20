@@ -27,9 +27,9 @@ general = dict(
 	fullscreen=0,
 	borderless=0,
 	show_cursor=0,
-	# locale='en_GB.utf8',
-	locale='cs_CZ.utf8',
-	first_name='Tomáši'
+	locale='en_GB.utf8',
+	# locale='cs_CZ.utf8',
+	first_name='Tom'
 )
 texts = dict(
 	en_GB=dict(

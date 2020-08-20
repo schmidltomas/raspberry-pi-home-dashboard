@@ -5,6 +5,7 @@ import feedparser
 import config
 import logger
 import json
+from dateutil import parser
 
 """Service for fetching news data from RSS feed."""
 
@@ -13,11 +14,9 @@ class RssServiceException(Exception):
 	pass
 
 
-def format_time(published_parsed):
-	minutes = str(published_parsed.tm_min)
-	if len(minutes) == 1:
-		minutes = '0' + minutes
-	return str(published_parsed.tm_hour) + ':' + minutes
+def format_time(published):
+	dt = parser.parse(published)
+	return dt.strftime("%H:%M")
 
 
 class RSSService:
@@ -37,7 +36,7 @@ class RSSService:
 			data.append({
 				"title": entry.title,
 				"image_url": entry.media_content[0]['url'],
-				"published": format_time(entry.published_parsed)
+				"published": format_time(entry.published)
 			})
 
 		logger.info("Fetched RSSService data=" + json.dumps(data, ensure_ascii=False))

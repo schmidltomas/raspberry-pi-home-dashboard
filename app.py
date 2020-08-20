@@ -104,7 +104,7 @@ class MainApp(App):
 		Clock.schedule_interval(layout.ids.greeting_shadow.update, constants.hourly)
 
 		# News widget
-		Clock.schedule_once(layout.ids.news_widget.update)
+		Clock.schedule_interval(layout.ids.news_widget.update, constants.every_30_min)
 
 		Clock.schedule_interval(layout.ids.news_1_image.update_image, constants.every_30_min)
 		Clock.schedule_interval(layout.ids.news_1.update_text, constants.every_30_min)
