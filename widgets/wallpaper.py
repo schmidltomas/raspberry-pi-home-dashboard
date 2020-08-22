@@ -20,6 +20,9 @@ class Wallpaper(AsyncImage):
 		if self.resolution == "840x400":
 			self.resolution = "1800x1080"
 
+	def on_kv_post(self, base_widget):
+		self.random_image()
+
 	def random_image(self, *args):
 		wallpapers = glob.glob("./wallpapers/" + self.resolution + "/*.jpg")
 		self.source = wallpapers[random.randint(0, len(wallpapers) - 1)]

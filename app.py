@@ -100,6 +100,7 @@ class MainApp(App):
 		Clock.schedule_interval(layout.ids.temperature_3_2_icon.update_icon, constants.every_30_min)
 
 		# Greeting widget
+		Clock.schedule_interval(layout.ids.greeting_widget.generate_greeting, constants.hourly)
 		Clock.schedule_interval(layout.ids.greeting.update, constants.hourly)
 		Clock.schedule_interval(layout.ids.greeting_shadow.update, constants.hourly)
 

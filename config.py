@@ -36,18 +36,26 @@ general = dict(
 texts = dict(
 	en_GB=dict(
 		today='TODAY',
+		tomorrow='TOMORROW',
 		time_to_work='TIME TO WORK',
-		morning='Good morning, ',
-		afternoon='Good afternoon, ',
-		evening='Good evening, ',
-		night='Good night, ',
+		morning=' morning, ',
+		afternoon=' afternoon, ',
+		morning_afternoon_adjectives=['Good', 'Great', 'Beautiful'],
+		evening=' evening, ',
+		evening_adjectives=['Good', 'Great', 'Beautiful'],
+		night=' night, ',
+		night_adjectives=['Good', 'Great', 'Beautiful'],
 	),
 	cs_CZ=dict(
 		today='DNES',
+		tomorrow='ZÍTRA',
 		time_to_work='ČAS DO PRÁCE',
-		morning='Dobré ráno, ',
-		afternoon='Dobré odpoledne, ',
-		evening='Dobrý večer, ',
-		night='Dobrou noc, ',
+		morning=' ráno, ',
+		afternoon=' odpoledne, ',
+		morning_afternoon_adjectives=['Dobré', 'Krásné', 'Hezké'],
+		evening=' večer, ',
+		evening_adjectives=['Dobrý', 'Krásný', 'Hezký'],
+		night=' noc, ',
+		night_adjectives=['Dobrou', 'Krásnou', 'Hezkou']
 	)
 )

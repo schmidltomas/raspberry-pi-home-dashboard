@@ -5,6 +5,7 @@ import requests
 import json
 import dateutil.parser
 from datetime import date
+import datetime
 import config
 import logger
 
@@ -78,8 +79,12 @@ def format_temp(temperature):
 
 
 def format_weekday(dt):
+	tomorrow = datetime.date.today() + datetime.timedelta(days=1)
+
 	if dt.date() == date.today():
 		return "TODAY"
+	elif dt.date() == tomorrow:
+		return "TOMORROW"
 	else:
 		return dt.strftime('%A').upper()
 

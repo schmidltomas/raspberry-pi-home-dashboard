@@ -71,6 +71,8 @@ class WeatherHeader(Label):
 	def update(self, *args):
 		if self.parent.parent.weekday == "TODAY":
 			self.text = config.texts[locale.getlocale()[0]]['today']
+		if self.parent.parent.weekday == "TOMORROW":
+			self.text = config.texts[locale.getlocale()[0]]['tomorrow']
 		else:
 			self.text = self.parent.parent.weekday
 
