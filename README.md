@@ -1,9 +1,9 @@
 # raspberry-pi-home-dashboard
 Simple customized home dashboard for Raspberry Pi.
 
-Work in progress...
+![Image](https://raw.githubusercontent.com/schmidltomas/raspberry-pi-home-dashboard/master/wallpapers/readme.png)
 
-(Planned) features:
+Features:
 * Clock ✓
 * Personalised greeting ✓
 * Indoor temperature, air pressure and humidity (use sensor)
