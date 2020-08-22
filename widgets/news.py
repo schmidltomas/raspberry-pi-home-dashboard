@@ -68,11 +68,8 @@ class News(Label):
 		self.text = self.parent.parent.published + ' • ' + self.parent.parent.title
 
 	def concat_length(self, *args):
-		if self.size[1] <= 32:
-			self.text = self.text + '\n '
-
-		if self.size[1] > 89:
-			self.text = self.text[0:89] + '...'
+		if self.size[1] >= 84:
+			self.text = self.text[0:92] + '…'
 
 
 class NewsImage(AsyncImage):

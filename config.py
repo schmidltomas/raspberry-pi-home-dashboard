@@ -1,6 +1,8 @@
 rss_service = dict(
 	# note that not all RSS feeds have media_content
-	url='https://www.theguardian.com/world/rss'
+	url='http://rss.cnn.com/rss/edition_world.rss'
+	# url='https://www.theguardian.com/world/rss'
+	# url='http://www.independent.co.uk/news/world/rss'
 	# url='https://ct24.ceskatelevize.cz/rss/hlavni-zpravy'
 )
 met_service = dict(

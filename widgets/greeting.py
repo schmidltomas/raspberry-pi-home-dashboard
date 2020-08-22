@@ -31,13 +31,13 @@ class Greeting(Label):
 	def update(self, *args):
 		hour = int(time.strftime("%H"))
 
-		if 6 < hour < 12:
+		if 5 <= hour < 12:
 			self.text = config.texts[self.locale_short]['morning'] + self.first_name
 		elif 12 <= hour < 18:
 			self.text = config.texts[self.locale_short]['afternoon'] + self.first_name
 		elif 18 <= hour < 21:
 			self.text = config.texts[self.locale_short]['evening'] + self.first_name
-		elif 21 <= hour < 6:
+		elif 21 <= hour < 5:
 			self.text = config.texts[self.locale_short]['night'] + self.first_name
 
 		logger.info("Updated GreetingWidget text=" + self.text)
