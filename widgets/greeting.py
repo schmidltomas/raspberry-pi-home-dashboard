@@ -22,7 +22,7 @@ class GreetingWidget(RelativeLayout):
 		self.locale_short = locale.getlocale()[0]
 		logger.info("Initialized GreetingWidget")
 
-	def generate_greeting(self):
+	def generate_greeting(self, *args):
 		hour = int(time.strftime("%H"))
 
 		texts = config.texts[self.locale_short]

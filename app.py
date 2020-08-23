@@ -29,7 +29,7 @@ class MainApp(App):
 	Config.set('graphics', 'borderless', config.general['borderless'])
 	Config.set('graphics', 'width', config.general['screen_width'])
 	Config.set('graphics', 'height', config.general['screen_height'])
-	Config.set("graphics", "show_cursor", config.general['show_cursor'])
+	Config.set('graphics', 'show_cursor', config.general['show_cursor'])
 	locale.setlocale(locale.LC_ALL, config.general['locale'])
 
 	def build(self):
