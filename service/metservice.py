@@ -89,6 +89,27 @@ def format_weekday(dt):
 		return dt.strftime('%A').upper()
 
 
+def empty_data():
+	data = []
+	
+	for i in range(12):
+		data.append({
+			"timestamp": "",
+			"weekday": "NO DATA",
+			"temperature": "N/A",
+			"description": "no_image"
+		})
+	
+	return data
+	
+	
+def get_response(url, params, headers):
+	try:
+		return requests.get(url=url, params=params, headers=headers)
+	except ConnectionError:
+		return None
+
+
 class METService:
 	url = config.met_service['url']
 	user_agent = config.met_service['user_agent']
@@ -102,8 +123,11 @@ class METService:
 
 		params = {'lat': self.lat, 'lon': self.lon, 'altitude': self.altitude}
 		headers = {'User-Agent': self.user_agent, 'If-Modified-Since': cache['last_modified']}
-		response = requests.get(url=self.url, params=params, headers=headers)
+		response = get_response(self.url, params, headers)
 
+		if response is None:
+			logger.info("Connection error when getting response, returning empty data")
+			return empty_data()
 		if response.status_code == 304:
 			logger.info("Received response=" + str(response.status_code) + ", loading from cache")
 			time_series = cache['content']['properties']['timeseries']

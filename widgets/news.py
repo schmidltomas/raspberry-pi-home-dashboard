@@ -74,5 +74,10 @@ class News(Label):
 
 class NewsImage(AsyncImage):
 	def update_image(self, *args):
-		self.source = self.parent.image_url
-		self.reload()
+		try:
+			self.source = self.parent.image_url
+			self.reload()
+		except TypeError:
+			logger.info("Failed to reload image from URL=" + self.parent.image_url)
+			pass
+

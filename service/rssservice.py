@@ -19,6 +19,19 @@ def format_time(published):
 	return dt.strftime("%H:%M")
 
 
+def empty_data():
+	data = []
+
+	for i in range(3):
+		data.append({
+			"title": "No data\n",
+			"image_url": "./icons/no_image.png",
+			"published": "N/A"
+		})
+
+	return data
+
+
 class RSSService:
 	url = config.rss_service['url']
 
@@ -27,8 +40,9 @@ class RSSService:
 		news_feed = feedparser.parse(self.url)
 
 		if len(news_feed.entries) == 0:
-			logger.error("Failed to fetch RSS new feed=" + news_feed.bozo_exception)
-			raise RssServiceException(news_feed.bozo_exception)
+			# raise RssServiceException(str(news_feed.bozo_exception))
+			logger.error("Failed to fetch RSS new feed=" + str(news_feed.bozo_exception))
+			return empty_data()
 
 		data = []
 		for i in range(3):
